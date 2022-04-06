@@ -27,6 +27,20 @@ public class Main {
             // call-operation to depositInputOutput
             //call-operation to deposit, to charge, to add some money to the card
 
+            String command = ask(scanner, "Option?");
+            if (command.equals("Quit")) {
+                break;
+            } else if (command.equals("Add")) {
+                add(scanner, db);
+            } else if (command.equals("Observation")) {
+                observation(scanner, db);
+            } else if (command.equals("Show")) {
+                show(scanner, db);
+            } else if (command.equals("Statistics")) {
+                statistics(scanner, db);
+            } else {
+                System.out.println("Unknown command!");
+            }
         }
     }
 
