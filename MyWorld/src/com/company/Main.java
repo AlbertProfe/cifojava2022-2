@@ -27,18 +27,18 @@ public class Main {
             // call-operation to depositInputOutput
             //call-operation to deposit, to charge, to add some money to the card
 
-            //String command = ask(scanner, "Option?");
-            String command = reader.nextLine();
+            String command = ask(reader, "Option?");
+
             //now i am at new branch lop-main-improved-1
             if (command.equals("Quit")) {
                 break;
-            } else if (command.equals("Add")) {
+            } else if (command.equals("createUser")) {
                 createUser(reader, users);
-            } else if (command.equals("Observation")) {
+            } else if (command.equals("changePin")) {
                 changePin(reader, users);
-            } else if (command.equals("Show")) {
+            } else if (command.equals("transfer")) {
                 transfer(reader, users);
-            } else if (command.equals("Statistics")) {
+            } else if (command.equals("deposit")) {
                 deposit(reader, users);
             } else {
                 System.out.println("Unknown command!");
@@ -62,19 +62,24 @@ public class Main {
 
     }
 
-    public static  void createUserInputOutput(){
+    public static String ask(Scanner reader, String string) {
+        return null;
+    }
+
+    public static void createUserInputOutput() {
 
     }
 
-    public static  void changePinInputOutput(){
+    public static void changePinInputOutput() {
 
     }
 
-    public static  void transferInputOutput (){
+    public static void transferInputOutput() {
 
     }
 
     public static void depositInputOutput() {
-
     }
+
+
 }
