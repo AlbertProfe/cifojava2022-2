@@ -27,35 +27,38 @@ public class Main {
             // call-operation to depositInputOutput
             //call-operation to deposit, to charge, to add some money to the card
 
-            String command = ask(scanner, "Option?");
+            //String command = ask(scanner, "Option?");
+            String command = reader.nextLine();
+
             if (command.equals("Quit")) {
                 break;
             } else if (command.equals("Add")) {
-                add(scanner, db);
+                createUser(reader, users);
             } else if (command.equals("Observation")) {
-                observation(scanner, db);
+                changePin(reader, users);
             } else if (command.equals("Show")) {
-                show(scanner, db);
+                transfer(reader, users);
             } else if (command.equals("Statistics")) {
-                statistics(scanner, db);
+                deposit(reader, users);
             } else {
                 System.out.println("Unknown command!");
             }
         }
     }
 
-    public static void createUser(){
-
-    }
-    public static  void changePin(){
+    public static void createUser(Scanner reader, ArrayList users) {
 
     }
 
-    public static  void transfer (){
+    public static void changePin(Scanner reader, ArrayList users) {
 
     }
 
-    public static void deposit() {
+    public static void transfer(Scanner reader, ArrayList users) {
+
+    }
+
+    public static void deposit(Scanner reader, ArrayList users) {
 
     }
 
