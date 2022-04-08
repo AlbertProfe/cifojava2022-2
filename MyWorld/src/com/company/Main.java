@@ -44,6 +44,10 @@ public class Main {
         System.out.println("Bye, bye, you have created " + users.size() + " users: " + users);
     }
 
+    //************************************************************************************
+    //************************************** features ************************************
+    //************************************************************************************
+
     public static void createUser(Scanner reader, ArrayList users) {
 
         //Let s introduce data to create User
@@ -73,10 +77,7 @@ public class Main {
 
         //if card number exists make the change Pin operation
         if (position > -1) {
-            Integer newPin = Integer.valueOf(ask(reader, "New Pin?"));
-            int oldPin = users.get(position).getCard().getPin();
-            users.get(position).getCard().setPin(newPin);
-            System.out.println("Pin cahnged success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
+            updatePin(reader, users, position);
             //if card number does not exist monitor this to user
         } else {
             System.out.println("This credit card number ( #: " + number + " ) does not exist");
@@ -90,6 +91,10 @@ public class Main {
     public static void deposit(Scanner reader, ArrayList users) {
 
     }
+
+    //************************************************************************************
+    //************************************** utils ***************************************
+    //************************************************************************************
 
     public static String ask(Scanner reader, String string) {
         System.out.println(string);
@@ -110,6 +115,15 @@ public class Main {
             if (user.getCard().getNumber() == cardNumber) positon = users.indexOf(user);
         }
         return positon;
+    }
+
+    public static void updatePin(Scanner reader, ArrayList<User> users, int position) {
+
+        Integer newPin = Integer.valueOf(ask(reader, "New Pin?"));
+        int oldPin = users.get(position).getCard().getPin();
+        users.get(position).getCard().setPin(newPin);
+        System.out.println("Pin cahnged success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
+
     }
 
 }
