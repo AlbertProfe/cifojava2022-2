@@ -27,7 +27,9 @@ public class Main {
             // call-operation to depositInputOutput
             //call-operation to deposit, to charge, to add some money to the card
 
-            String command = ask(reader, "Option?");
+            System.out.println("Option");
+
+            String command = reader.nextLine();
 
             //now i am at new branch lop-main-improved-1
             if (command.equals("Quit")) {
@@ -47,7 +49,13 @@ public class Main {
     }
 
     public static void createUser(Scanner reader, ArrayList users) {
+        System.out.println("Name");
+        String name = reader.nextLine();
 
+        //... rest of attributes and Card
+
+        User userCreated = new User();
+        users.add(userCreated);
     }
 
     public static void changePin(Scanner reader, ArrayList users) {
@@ -62,24 +70,9 @@ public class Main {
 
     }
 
-    public static String ask(Scanner reader, String string) {
-        return null;
-    }
-
-    public static void createUserInputOutput() {
-
-    }
-
-    public static void changePinInputOutput() {
-
-    }
-
-    public static void transferInputOutput() {
-
-    }
-
-    public static void depositInputOutput() {
-    }
+    //public static String ask(Scanner reader, String string) {
+    //   return null;
+    //}
 
 
 }
