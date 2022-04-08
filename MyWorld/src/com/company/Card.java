@@ -2,7 +2,7 @@ package com.company;
 
 public class Card {
 
-    int number;
+    long number;
     double amount;
     String type;
     int pin;
@@ -10,14 +10,14 @@ public class Card {
     public Card() {
     }
 
-    public Card(int number, double amount, String type, int pin) {
+    public Card(long number, double amount, String type) {
         this.number = number;
         this.amount = amount;
         this.type = type;
         this.pin = 1234;
     }
 
-    public int getNumber() {
+    public long getNumber() {
         return number;
     }
 
