@@ -58,4 +58,12 @@ public class Card {
                 ", pin=" + pin +
                 '}';
     }
+
+    public void removeAmount(Double aomunt) {
+        this.setAmount(this.getAmount() - aomunt);
+    }
+
+    public void addAmount(Double aomunt) {
+        this.setAmount(this.getAmount() + aomunt);
+    }
 }

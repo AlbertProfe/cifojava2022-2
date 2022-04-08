@@ -6,13 +6,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
         //jsut an arraylist to store users
         ArrayList<User> users = new ArrayList<User>();
         Scanner reader = new Scanner(System.in);
 
         while (true) {
-
             //print mini-menu with 4 options + quit
             System.out.println("1-createUser");
             System.out.println("2-changePin");
@@ -49,7 +47,6 @@ public class Main {
     //************************************************************************************
 
     public static void createUser(Scanner reader, ArrayList users) {
-
         //Let s introduce data to create User
         String name = ask(reader, "Name?");
         String surname = ask(reader, "Surname?");
@@ -85,7 +82,24 @@ public class Main {
     }
 
     public static void transfer(Scanner reader, ArrayList users) {
+        //ask for both credit card numbers and make a transfer
+        Integer originCardNumber = Integer.valueOf(ask(reader, "Number Card from?"));
+        int originPosition = isCardNumber(originCardNumber, users);
+        Integer destinationCardNumber = Integer.valueOf(ask(reader, "Number Card to?"));
+        int destinationPosition = isCardNumber(destinationCardNumber, users);
 
+        if (originPosition > -1 && destinationPosition > -1) {
+            Double amount = Double.valueOf(ask(reader, "Amount?"));
+            boolean isMoney = isAmount(reader, users, originPosition, amount);
+            if (isMoney) {
+                //now it is possible to make a transer, call makeTransfer
+                makeTransfer(originPosition, destinationPosition, amount, users);
+            } else {
+                System.out.println("Check if credit card has not got enough money to make a transfer ...");
+            }
+        } else {
+            System.out.println("Check if credit card numbers are right ...");
+        }
     }
 
     public static void deposit(Scanner reader, ArrayList users) {
@@ -110,6 +124,7 @@ public class Main {
     }*/
 
     public static int isCardNumber(int cardNumber, ArrayList<User> users) {
+        //find out if cardNumber exists in users
         int positon = -1;
         for (User user : users) {
             if (user.getCard().getNumber() == cardNumber) positon = users.indexOf(user);
@@ -118,12 +133,25 @@ public class Main {
     }
 
     public static void updatePin(Scanner reader, ArrayList<User> users, int position) {
-
+        //just ask for new pin and set new pin to users-user-card-pin
         Integer newPin = Integer.valueOf(ask(reader, "New Pin?"));
         int oldPin = users.get(position).getCard().getPin();
         users.get(position).getCard().setPin(newPin);
         System.out.println("Pin cahnged success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
 
+    }
+
+    public static boolean isAmount(Scanner reader, ArrayList<User> users, int position, Double aomunt) {
+        //check if is enough money in origin card
+        boolean isMoney = users.get(position).getCard().getAmount() >= aomunt;
+        return isMoney;
+    }
+
+    public static void makeTransfer(int originPosition, int destinationPosition, Double amount, ArrayList<User> users) {
+        //rest this qty amount from origin
+        users.get(originPosition).getCard().removeAmount(amount);
+        //add this qty amount from destination
+        users.get(destinationPosition).getCard().addAmount(amount);
     }
 
 }
