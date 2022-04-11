@@ -59,11 +59,12 @@ public class Card {
                 '}';
     }
 
-    public void removeAmount(Double aomunt) {
-        this.setAmount(this.getAmount() - aomunt);
+    //update -getter/setter- amount of object card with qty from parameter
+    public void removeAmount(Double amount) {
+        this.setAmount(this.getAmount() - amount);
     }
 
-    public void addAmount(Double aomunt) {
-        this.setAmount(this.getAmount() + aomunt);
+    public void addAmount(Double amount) {
+        this.setAmount(this.getAmount() + amount);
     }
 }
