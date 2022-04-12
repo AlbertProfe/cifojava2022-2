@@ -57,11 +57,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "\nUser{" +
+        return "\n\tUser{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 ", card=" + card +
-                '}';
+                "}";
     }
 }

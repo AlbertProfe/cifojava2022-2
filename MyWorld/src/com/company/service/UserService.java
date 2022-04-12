@@ -16,7 +16,7 @@ public class UserService {
         return isCard;
     }*/
 
-    public static int isCardNumber(int cardNumber, ArrayList<User> users) {
+    public static int isCardNumber(long cardNumber, ArrayList<User> users) {
         //find out if cardNumber exists in users
         int position = -1;
         for (User user : users) {

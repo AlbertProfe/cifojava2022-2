@@ -16,7 +16,6 @@ public class FrontController {
         while (true) {
 
             Menu.mainMenu();
-
             String command = Utilities.ask(reader, "Option?");
 
             //to quit the loop write Quit
@@ -37,6 +36,7 @@ public class FrontController {
             } else {
                 System.out.println("Unknown command!");
             }
+
         }
     }
 }

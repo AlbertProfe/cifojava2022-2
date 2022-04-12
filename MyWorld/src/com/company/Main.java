@@ -1,8 +1,7 @@
 package com.company;
 
-import com.company.frontcontroller.FrontController;
 import com.company.model.User;
-import com.company.utils.Utilities;
+import com.company.test.UserTest;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,18 +9,21 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        //we are starting our software, we are booting it
+        System.out.println("\nStarting myWorld, hello!\n");
         //just an arraylist to store users
+        // and scanner object to manage io
         ArrayList<User> users = new ArrayList<User>();
         Scanner reader = new Scanner(System.in);
-        //We create this feature to test our soft
-        Utilities.createFakeUsers(users);
-        Utilities.printUsers(users);
 
-        //we are starting our software, we are booting it
-        FrontController.mainLoop(reader, users);
+        //We create this feature to test our soft
+        UserTest.test(users);
+
+        //we are starting the main loop
+        //FrontController.mainLoop(reader, users);
 
         //Exit program
-        System.out.println("Bye, bye, you have created " + users.size() + " users: " + users);
+        System.out.println("\nFinishing myWorld, bye, bye!");
     }
 
 }
