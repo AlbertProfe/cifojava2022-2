@@ -1,16 +1,21 @@
 package com.company.frontcontroller;
 
-import com.company.controller.Controller;
+import com.company.controller.UserController;
+import com.company.model.User;
 import com.company.utils.Utilities;
+import com.company.view.Menu;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FrontController {
 
 
-    public static void mainLoop(Scanner reader) {
+    public static void mainLoop(Scanner reader, ArrayList<User> users) {
 
         while (true) {
+
+            Menu.mainMenu();
 
             String command = Utilities.ask(reader, "Option?");
 
@@ -19,16 +24,16 @@ public class FrontController {
                 break;
             } else if (command.equals("createUser")) {
                 //call-operation to create new user
-                Controller.createUser(reader, users);
+                UserController.createUser(reader, users);
             } else if (command.equals("changePin")) {
                 //call-operation to change pin
-                changePin(reader, users);
+                UserController.changePin(reader, users);
             } else if (command.equals("transfer")) {
                 //call-operation to make transfer
-                transfer(reader, users);
+                UserController.transfer(reader, users);
             } else if (command.equals("deposit")) {
                 //call-operation to deposit, to charge, to add some money to the card
-                deposit(reader, users);
+                UserController.deposit(reader, users);
             } else {
                 System.out.println("Unknown command!");
             }

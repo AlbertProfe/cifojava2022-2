@@ -1,6 +1,7 @@
 package com.company.service;
 
 import com.company.model.User;
+import com.company.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class UserService {
 
     public static int isCardNumberError(int cardNumber, ArrayList<User> users) {
         //find out if cardNumber exists in users
-        //position is able to value : -3, -2, -1, 0..n
+        //position will value : -3, -2, -1, 0..n
         // if cardNumber is right : 0 .. n (position within array users)
         // if card does not exist : -1
         // if card exists but card number is wrong : -2
@@ -45,7 +46,7 @@ public class UserService {
 
     public static void updatePin(Scanner reader, ArrayList<User> users, int position) {
         //just ask for new pin and set new pin to users-user-card-pin
-        Integer newPin = Integer.valueOf(ask(reader, "New Pin?"));
+        Integer newPin = Integer.valueOf(Utilities.ask(reader, "New Pin?"));
         int oldPin = users.get(position).getCard().getPin();
         //set the new value of pin
         users.get(position).getCard().setPin(newPin);
@@ -65,7 +66,7 @@ public class UserService {
         users.get(destinationPosition).getCard().addAmount(amount);
     }
 
-    private static void makeDeposit(int position, Double amount, ArrayList<User> users) {
+    public static void makeDeposit(int position, Double amount, ArrayList<User> users) {
         //add this qty amount from position
         users.get(position).getCard().addAmount(amount);
     }

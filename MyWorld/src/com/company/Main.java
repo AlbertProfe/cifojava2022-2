@@ -14,7 +14,7 @@ public class Main {
         Scanner reader = new Scanner(System.in);
 
         //we are starting our software, we are booting it
-        FrontController.mainLoop(reader);
+        FrontController.mainLoop(reader, users);
 
         //Exit program
         System.out.println("Bye, bye, you have created " + users.size() + " users: " + users);
