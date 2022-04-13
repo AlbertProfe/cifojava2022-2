@@ -45,11 +45,11 @@ public class UserController {
         }
     }
 
-    public static void transfer(Scanner reader, ArrayList users) {
+    public static void transfer(Scanner reader, ArrayList<User> users) {
         //ask for both credit card numbers and make a transfer
-        Integer originCardNumber = Integer.valueOf(Utilities.ask(reader, "Number Card from?"));
+        Long originCardNumber = Long.valueOf(Utilities.ask(reader, "Number Card from?"));
         int originPosition = UserService.isCardNumber(originCardNumber, users);
-        Integer destinationCardNumber = Integer.valueOf(Utilities.ask(reader, "Number Card to?"));
+        Long destinationCardNumber = Long.valueOf(Utilities.ask(reader, "Number Card to?"));
         int destinationPosition = UserService.isCardNumber(destinationCardNumber, users);
 
         if (originPosition > -1 && destinationPosition > -1) {

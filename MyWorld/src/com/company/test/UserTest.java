@@ -1,5 +1,6 @@
 package com.company.test;
 
+import com.company.controller.UserController;
 import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.UserService;
@@ -14,10 +15,10 @@ public class UserTest {
         //printUsers(users);
         testChangePinOK(users);
         testChangePinFAIL(users);
-        testTransferOK(users);
+        //testTransferOK(users);
         //testDeposit(users);
         //testLoan(users);
-        //testTransferCompleteProcessOK(users);
+        testTransferCompleteProcessOK(users);
     }
 
     public static void createFakeUsers(ArrayList<User> users) {
@@ -93,11 +94,11 @@ public class UserTest {
         //UserController.transfer(cardNumberOrigin, cardNumberOrigin, amount, users);
 
 
-        String testInput = "1234123412341234L\n" + "4321432143214321L\n" + "50.00\n";
+        String testInput = "1234123412341234\n" + "4321432143214321\n" + "50.00\n";
         Scanner readerTest = new Scanner(testInput);
 
         //OPTION B) send reader
-        //UserController.transfer(readerTest, users);
+        UserController.transfer(readerTest, users);
 
 
         //OPTION C) replicate method here
