@@ -46,17 +46,6 @@ public class UserController {
     }
 
     public static void transfer(Scanner reader, ArrayList users) {
-        //i have to check if both cards exist
-
-        //check pin
-
-        //amount?
-
-        //check if card origin has got enough money to make a transfser
-
-        //eventually make transfer
-
-
         //ask for both credit card numbers and make a transfer
         Integer originCardNumber = Integer.valueOf(Utilities.ask(reader, "Number Card from?"));
         int originPosition = UserService.isCardNumber(originCardNumber, users);
@@ -65,6 +54,7 @@ public class UserController {
 
         if (originPosition > -1 && destinationPosition > -1) {
             Double amount = Double.valueOf(Utilities.ask(reader, "Amount?"));
+            //validate transfer depends on amount
             boolean isMoney = UserService.isEnoughAmount(reader, users, originPosition, amount);
             if (isMoney) {
                 //now it is possible to make a transfer, call makeTransfer
@@ -76,6 +66,7 @@ public class UserController {
             System.out.println("Check if credit card numbers are right ...");
         }
     }
+
 
     public static void deposit(Scanner reader, ArrayList users) {
         //just ask for amount and add this money to card
@@ -89,6 +80,9 @@ public class UserController {
         } else {
             System.out.println("Check if credit card numbers are right ...");
         }
+    }
+
+    public static void loan() {
     }
 
 }

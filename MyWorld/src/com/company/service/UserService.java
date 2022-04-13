@@ -20,7 +20,7 @@ public class UserService {
         //find out if cardNumber exists in users
         int position = -1;
         for (User user : users) {
-            if (user.getCard().getNumber() == cardNumber) position = users.indexOf(user);
+            if (user.getCard().getNumber() == cardNumber) position = users.indexOf(user);/**/
         }
         return position;
     }
@@ -54,6 +54,12 @@ public class UserService {
     }
 
     public static boolean isEnoughAmount(Scanner reader, ArrayList<User> users, int position, Double amount) {
+        //check if is enough money in origin card
+        boolean isMoney = users.get(position).getCard().getAmount() >= amount;
+        return isMoney;
+    }
+
+    public static boolean isEnoughAmount(ArrayList<User> users, int position, Double amount) {
         //check if is enough money in origin card
         boolean isMoney = users.get(position).getCard().getAmount() >= amount;
         return isMoney;

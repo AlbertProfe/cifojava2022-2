@@ -10,11 +10,12 @@ import java.util.Scanner;
 
 public class FrontController {
 
-
-    public static void mainLoop(Scanner reader, ArrayList<User> users) {
+    public static void mainLoop(ArrayList<User> users) {
+        //just scanner object to manage io
+        Scanner reader = new Scanner(System.in);
 
         while (true) {
-
+            //print main menu
             Menu.mainMenu();
             String command = Utilities.ask(reader, "Option?");
 
