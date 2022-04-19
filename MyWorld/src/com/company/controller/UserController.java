@@ -1,31 +1,31 @@
 package com.company.controller;
 
-import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.UserService;
 import com.company.utils.Utilities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserController {
 
-    public static void createUser(Scanner reader, ArrayList users) {
-        //Let s introduce data to create User
-        String name = Utilities.ask(reader, "Name?");
-        String surname = Utilities.ask(reader, "Surname?");
-        Integer age = Integer.valueOf(Utilities.ask(reader, "Age?"));
-        //Let s introduce data to create User's card
-        Long number = Long.valueOf(Utilities.ask(reader, "Number Card?"));
-        Double amount = Double.valueOf(Utilities.ask(reader, "Amount?"));
-        String type = Utilities.ask(reader, "Type?");
-        //Integer pin = Integer.valueOf(ask(reader, "Pin Card?"));
+    //just an arraylist to store users
+    static ArrayList<User> users = new ArrayList<User>();
 
-        //Let s create User object with previous data
-        User createdUser = new User(name, surname, age, new Card(number, amount, type));
-        System.out.println("User created: " + createdUser);
+    public static void createUser(HashMap<String, String> dataToCreateUser) {
+
+        String name = dataToCreateUser.get("name");
+        String surname = dataToCreateUser.get("surname");
+        int age = Integer.valueOf(dataToCreateUser.get("age"));
+
+        //Let s introduce data to create User
+        User createddUser = new User(name, surname, age);
+        //User createddUser = new User(name, surname, age, new Card(number, amount, type));
+        System.out.println("User created: " + createddUser);
         //Let s add this new User object to the main (and just one) array
-        users.add(createdUser);
+        users.add(createddUser);
+
         System.out.println("User added to users: " + users);
 
     }
@@ -66,7 +66,6 @@ public class UserController {
             System.out.println("Check if credit card numbers are right ...");
         }
     }
-
 
     public static void deposit(Scanner reader, ArrayList users) {
         //just ask for amount and add this money to card
