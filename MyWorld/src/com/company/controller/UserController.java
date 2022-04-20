@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.UserService;
 import com.company.utils.Utilities;
@@ -9,19 +10,20 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserController {
-
     //just an arraylist to store users
     static ArrayList<User> users = new ArrayList<User>();
 
-    public static void createUser(HashMap<String, String> dataToCreateUser) {
+    public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
 
         String name = dataToCreateUser.get("name");
         String surname = dataToCreateUser.get("surname");
         int age = Integer.valueOf(dataToCreateUser.get("age"));
+        long cardNumber = Long.valueOf((dataToCreateUser.get("cardNumber")));
+        double amount = Double.valueOf(dataToCreateUser.get("amount"));
+        String cardType = dataToCreateUser.get("cardType");
 
         //Let s introduce data to create User
-        User createddUser = new User(name, surname, age);
-        //User createddUser = new User(name, surname, age, new Card(number, amount, type));
+        User createddUser = new User(name, surname, age, new Card(cardNumber, amount, cardType));
         System.out.println("User created: " + createddUser);
         //Let s add this new User object to the main (and just one) array
         users.add(createddUser);
@@ -29,6 +31,12 @@ public class UserController {
 
         System.out.println("User added to users: " + users);
 
+        HashMap<String, String> response = new HashMap<>();
+        response.put("response", "createUserResponse");
+        response.put("status", "created");
+
+
+        return response;
     }
 
     public static void changePin(Scanner reader, ArrayList<User> users) {

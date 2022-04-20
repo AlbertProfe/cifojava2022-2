@@ -9,4 +9,10 @@ public class Menu {
         System.out.println("3-transfer");
         System.out.println("4-deposit");
     }
+
+    public static void modeMenu() {
+        //print mini-menu with 4 options + quit
+        System.out.println("1-test");
+        System.out.println("2-release");
+    }
 }

@@ -6,14 +6,17 @@ import java.util.HashMap;
 
 public class FrontController {
 
-    public static void mainLoopController(HashMap datafromVew) {
-        //
-        if (datafromVew.get("operation").equals("createUser")) UserController.createUser(datafromVew);
-        //else if (datafromVew.get("operation").equals( "changePin"))  UserController.changePin(datafromVew);
-        //else if (datafromVew.get("operation").equals( "transfer"))  UserController.transfer(datafromVew);
-        //else if (datafromVew.get("operation").equals( "deposit"))  UserController.deposit(datafromVew);
-        //else if (datafromVew.get("operation").equals( "loan"))  UserController.loan(datafromVew);
+    public static HashMap<String, String> mainLoopController(HashMap request) {
+        HashMap<String, String> response = null;
+        if (request.get("operation").equals("createUser")) {
+            response = UserController.createUser(request);
+        }
+        //else if (request.get("operation").equals( "changePin"))  UserController.changePin(request);
+        //else if (request.get("operation").equals( "transfer"))  UserController.transfer(request);
+        //else if (request.get("operation").equals( "deposit"))  UserController.deposit(request);
+        //else if (request.get("operation").equals( "loan"))  UserController.loan(request);
 
 
+        return response;
     }
 }

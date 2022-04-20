@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class UserService {
 
-        /*public static boolean isCardNumber (int cardNumber, ArrayList<User> users){
+    /*public static boolean isCardNumber (int cardNumber, ArrayList<User> users){
         boolean isCard = false;
         for (User user : users){
             if (user.getCard().getNumber() == cardNumber)  isCard= true;
