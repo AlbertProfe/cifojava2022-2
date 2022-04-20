@@ -26,6 +26,7 @@ public class UserController {
         //Let s add this new User object to the main (and just one) array
         users.add(createddUser);
 
+
         System.out.println("User added to users: " + users);
 
     }

@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.view.IOView;
+import com.company.test.UserTest;
 
 public class Main {
 
@@ -9,10 +9,10 @@ public class Main {
         System.out.println("\nStarting myWorld, hello!\n");
 
         //We create this feature to test our soft
-        //UserTest.test(users);
+        UserTest.test();
 
         //we are starting the main loop
-        IOView.mainLoopView();
+        //IOView.mainLoopView();
 
         //Exit program
         System.out.println("\nFinishing myWorld, bye, bye!");

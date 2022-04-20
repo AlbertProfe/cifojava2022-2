@@ -10,15 +10,16 @@ import java.util.Scanner;
 
 public class UserTest {
 
-    public static void test(ArrayList<User> users) {
-        createFakeUsers(users);
+    public static void test() {
+        ArrayList<User> usersTest = new ArrayList();
+        createFakeUsers(usersTest);
         //printUsers(users);
-        testChangePinOK(users);
-        testChangePinFAIL(users);
-        //testTransferOK(users);
+        testChangePinOK(usersTest);
+        testChangePinFAIL(usersTest);
+        testTransferOK(usersTest);
         //testDeposit(users);
         //testLoan(users);
-        testTransferCompleteProcessOK(users);
+        testTransferCompleteProcessOK(usersTest);
     }
 
     public static void createFakeUsers(ArrayList<User> users) {
