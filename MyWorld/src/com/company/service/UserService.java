@@ -1,7 +1,6 @@
 package com.company.service;
 
 import com.company.model.User;
-import com.company.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,13 +43,8 @@ public class UserService {
         return position;
     }
 
-    public static void updatePin(Scanner reader, ArrayList<User> users, int position) {
-        //just ask for new pin and set new pin to users-user-card-pin
-        Integer newPin = Integer.valueOf(Utilities.ask(reader, "New Pin?"));
-        int oldPin = users.get(position).getCard().getPin();
-        //set the new value of pin
+    public static void updatePin(int newPin, ArrayList<User> users, int position) {
         users.get(position).getCard().setPin(newPin);
-        System.out.println("Pin changed success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
     }
 
     public static boolean isEnoughAmount(Scanner reader, ArrayList<User> users, int position, Double amount) {

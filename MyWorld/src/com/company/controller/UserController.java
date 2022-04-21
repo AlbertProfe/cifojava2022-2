@@ -37,19 +37,29 @@ public class UserController {
         return createUserResponse;
     }
 
-    public static void changePin(Scanner reader, ArrayList<User> users) {
-        //ask for card number and check if this card number exists within users
+    public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
+        //get data from hashmap
+        long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
+        int newPin = Integer.parseInt(dataToChangePin.get("newPin"));
+
         //and get the index from the array, if it does not exist, get -1
-        int number = Integer.parseInt(Utilities.ask(reader, "Number Card?"));
-        int position = UserService.isCardNumber(number, users);
+        int position = UserService.isCardNumber(cardNumber, users);
+        HashMap<String, String> changePinResponse = new HashMap<>();
+        changePinResponse.put("response", "changePinResponse");
+        int oldPin = users.get(position).getCard().getPin();
 
         //if card number exists make the change Pin operation
         if (position > -1) {
-            UserService.updatePin(reader, users, position);
+            UserService.updatePin(newPin, users, position);
+            changePinResponse.put("status", "pinUpdated");
+            changePinResponse.put("message", "Pin changed success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
             //if card number does not exist monitor this to user
         } else {
-            System.out.println("This credit card number ( #: " + number + " ) does not exist");
+            changePinResponse.put("status", "pinNotUpdated");
+            changePinResponse.put("message", "This credit card number ( #: " + cardNumber + " ) does not exist");
         }
+
+        return changePinResponse;
     }
 
     public static void transfer(Scanner reader, ArrayList<User> users) {

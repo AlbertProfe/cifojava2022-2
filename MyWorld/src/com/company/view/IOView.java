@@ -81,7 +81,23 @@ public class IOView {
         return createUserStatus;
     }
 
-    public static void changePin(Scanner reader) {
+    public static String changePin(Scanner reader) {
+        //ask for card number and check if this card number exists within users
+        String cardNumber = Utilities.ask(reader, "Number Card?");
+        //just ask for new pin and set new pin to users-user-card-pin
+        String newPin = Utilities.ask(reader, "New Pin?");
+        HashMap<String, String> changePinRequest = new HashMap<>();
+        //fill data hashmap object
+        changePinRequest.put("operation", "changePin");
+        changePinRequest.put("cardNumber", cardNumber);
+        changePinRequest.put("newPin", newPin);
+
+
+        HashMap<String, String> changePinResponse = FrontController.mainLoopController(changePinRequest);
+        String changePinStatus = changePinResponse.get("status");
+        System.out.println("status user: " + changePinStatus + "\n");
+
+        return changePinStatus;
 
     }
 
