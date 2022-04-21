@@ -13,65 +13,35 @@ import java.util.Scanner;
 public class UserTest {
 
     public static void test() {
-        testCreateUserController();
-        unitaryTestCreateUserController();
-        //ArrayList<User> usersTest = new ArrayList();
-        //createFakeUsers(usersTest);
+        //array list users to test
+        ArrayList<User> usersTest = new ArrayList<>();
+        createFakeUsers(usersTest);
         //printUsers(users);
-        //testChangePinOK(usersTest);
+        //unitary tests
+        testCreateUserView();
+        testCreateUserController();
+        testChangePinView();
+        testChangePinController(usersTest);
         //testChangePinFAIL(usersTest);
         //testTransferOK(usersTest);
         //testDeposit(users);
         //testLoan(users);
         //testTransferCompleteProcessOK(usersTest);
+        System.out.println("Tests ending... \n");
     }
 
-    public static void testCreateUserController() {
-        //test view so we need to send data as string
-        String fakedata = "Alex\n" + "Jhones\n" + "12\n" + "1234123412341234\n" + "500.00\n" + "Visa\n";
-        Scanner fakeReader = new Scanner(fakedata);
-
-        String status = IOView.createUser(fakeReader);
-        if (status.equals("created")) System.out.println("testCreateUserController OK");
-        else System.out.println("testCreateUserController FAIL");
-    }
-
-    public static void unitaryTestCreateUserController() {
-        //to test and discover weather
-        // (1) user is created
-        // (2) user is saved in arraylist properly
-        // (3) get hashmap and unpack it
-        // (4) create response hashmap and works
-
-        HashMap<String, String> fakedata = new HashMap();
-
-        fakedata.put("operation", "createUser");
-        fakedata.put("name", "Sonia");
-        fakedata.put("surname", "Lopes");
-        fakedata.put("age", "10");
-        fakedata.put("cardNumber", "1234123412341234");
-        fakedata.put("amount", "50.00");
-        fakedata.put("cardType", "Visa");
-
-        HashMap<String, String> responseHashMap = UserController.createUser(fakedata);
-
-        if (responseHashMap.get("status").equals("created")) System.out.println("unitaryTestCreateUserController OK");
-        else System.out.println("unitaryTestCreateUserController FAIL");
-    }
-
-    public static void createFakeUsers(ArrayList<User> users) {
+    public static void createFakeUsers(ArrayList<User> usersTest) {
 
         User newUser1 = new User("Alex", "Pixel", 25, new Card(1234123412341234L, 500.00, "Visa"));
         User newUser2 = new User("Thomas", "Edison", 35, new Card(4321432143214321L, 1500.00, "Master Card"));
         User newUser3 = new User("Susan", "Lane", 46, new Card(1111222233334444L, 2500.00, "American Express"));
         User newUser4 = new User("Marta", "Gross", 86, new Card(4444333322221111L, 1900.00, "American Express"));
+        usersTest.add(newUser1);
+        usersTest.add(newUser2);
+        usersTest.add(newUser3);
+        usersTest.add(newUser4);
 
-        users.add(newUser1);
-        users.add(newUser2);
-        users.add(newUser3);
-        users.add(newUser4);
-
-        if (users.size() == 4) System.out.println("Test #createFakeUsers OK");
+        if (usersTest.size() == 4) System.out.println("Test #createFakeUsers OK");
         else System.out.println("Test #createFakeUsers FAIL");
     }
 
@@ -79,19 +49,62 @@ public class UserTest {
         System.out.println("Users:" + users + "\n");
     }
 
-    public static void testChangePinOK(ArrayList<User> users) {
-        //test: check that if card number is ok
-        int position = UserService.isCardNumber(1234123412341234L, users);
-        if (position >= 0) System.out.println("Test #testChangePinOK OK");
-        else System.out.println("Test #testChangePinOK FAIL");
+    public static void testCreateUserView() {
+        //test view so we need to send data as string
+        String fakeDataUser = "Alex\n" + "Jones\n" + "12\n" + "1234123412341234\n" + "500.00\n" + "Visa\n";
+        Scanner fakeReader = new Scanner(fakeDataUser);
+
+        String status = IOView.createUser(fakeReader);
+        if (status.equals("created")) System.out.println("testCreateUserView OK");
+        else System.out.println("testCreateUserView FAIL");
     }
 
-    public static void testChangePinFAIL(ArrayList<User> users) {
-        //test: check that if card number is wrong
-        int position = UserService.isCardNumber(1234123445841234L, users);
-        if (position < 0) System.out.println("Test #testChangePinFAIL OK");
-        else System.out.println("Test #testChangePinFAIL FAIL");
+    public static void testCreateUserController() {
+        //to test and discover weather
+        // (1) user is created
+        // (2) user is saved in arraylist properly
+        // (3) get hashmap and unpack it
+        // (4) create response hashmap and works
+        HashMap<String, String> fakeDataUser = new HashMap();
+        fakeDataUser.put("operation", "createUser");
+        fakeDataUser.put("name", "Sonia");
+        fakeDataUser.put("surname", "Lopes");
+        fakeDataUser.put("age", "10");
+        fakeDataUser.put("cardNumber", "1234123412341234");
+        fakeDataUser.put("amount", "50.00");
+        fakeDataUser.put("cardType", "Visa");
+
+        HashMap<String, String> responseHashMap = UserController.createUser(fakeDataUser);
+
+        if (responseHashMap.get("status").equals("created")) System.out.println("testCreateUserController OK");
+        else System.out.println("testCreateUserController FAIL");
     }
+
+    public static void testChangePinView() {
+        //test view so we need to send data as string
+        String fakeDataUser = "1234123412341234\n" + "2569\n";
+        Scanner fakeReader = new Scanner(fakeDataUser);
+
+        String status = IOView.changePin(fakeReader);
+        if (status.equals("pinUpdated")) System.out.println("testChangePinView OK");
+        else System.out.println("testChangePinView FAIL");
+    }
+
+    public static void testChangePinController(ArrayList<User> users) {
+        //test: check
+        HashMap<String, String> fakeDataUser = new HashMap<>();
+        //fill data hashmap object
+        fakeDataUser.put("operation", "changePin");
+        fakeDataUser.put("cardNumber", "1234123412341234");
+        fakeDataUser.put("newPin", "6589");
+
+        HashMap<String, String> responseHashMap = UserController.changePin(fakeDataUser);
+
+        if (responseHashMap.get("status").equals("pinUpdated")) System.out.println("testChangePinController OK");
+        else System.out.println("testChangePinController FAIL");
+
+    }
+
 
     public static void testTransferOK(ArrayList<User> users) {
         //test: check 4 methods to make a transfer
@@ -128,7 +141,7 @@ public class UserTest {
         Long cardNumberDestination = 4321432143214321L;
         double amountToTransfer = 50.00;
 
-        //OPTION A) method overload: remove reader and send two longs and one int
+        //OPTION (A) method overload: remove reader and send two longs and one int
         //UserController.transfer(cardNumberOrigin, cardNumberOrigin, amount, users);
 
 
@@ -139,11 +152,11 @@ public class UserTest {
         //call a new class Scanner
         Scanner readerTest = new Scanner(testInput);
 
-        //OPTION B) send reader
+        //OPTION (B) send reader
         UserController.transfer(readerTest, users);
 
 
-        //OPTION C) replicate method here
+        //OPTION (C) replicate method here
 
         double rightAmountAfterMakeTransferOrigin = users.get(0).getCard().getAmount();
         if (rightAmountAfterMakeTransferOrigin == 450.00)

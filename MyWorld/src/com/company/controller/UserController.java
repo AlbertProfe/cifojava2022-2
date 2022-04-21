@@ -37,19 +37,29 @@ public class UserController {
         return createUserResponse;
     }
 
-    public static void changePin(Scanner reader, ArrayList<User> users) {
-        //ask for card number and check if this card number exists within users
+    public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
+        //get data from hashmap
+        long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
+        int newPin = Integer.parseInt(dataToChangePin.get("newPin"));
+
         //and get the index from the array, if it does not exist, get -1
-        int number = Integer.parseInt(Utilities.ask(reader, "Number Card?"));
-        int position = UserService.isCardNumber(number, users);
+        int position = UserService.isCardNumber(cardNumber, users);
+        HashMap<String, String> changePinResponse = new HashMap<>();
+        changePinResponse.put("response", "changePinResponse");
+        int oldPin = users.get(position).getCard().getPin();
 
         //if card number exists make the change Pin operation
         if (position > -1) {
-            UserService.updatePin(reader, users, position);
+            UserService.updatePin(newPin, users, position);
+            changePinResponse.put("status", "pinUpdated");
+            changePinResponse.put("message", "Pin changed success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
             //if card number does not exist monitor this to user
         } else {
-            System.out.println("This credit card number ( #: " + number + " ) does not exist");
+            changePinResponse.put("status", "pinNotUpdated");
+            changePinResponse.put("message", "This credit card number ( #: " + cardNumber + " ) does not exist");
         }
+
+        return changePinResponse;
     }
 
     public static void transfer(Scanner reader, ArrayList<User> users) {
@@ -91,4 +101,14 @@ public class UserController {
     public static void loan() {
     }
 
+    public static void createFakeUsers() {
+        User newUser1 = new User("Alex", "Pixel", 25, new Card(1234123412341234L, 500.00, "Visa"));
+        User newUser2 = new User("Thomas", "Edison", 35, new Card(4321432143214321L, 1500.00, "Master Card"));
+        User newUser3 = new User("Susan", "Lane", 46, new Card(1111222233334444L, 2500.00, "American Express"));
+        User newUser4 = new User("Marta", "Gross", 86, new Card(4444333322221111L, 1900.00, "American Express"));
+        users.add(newUser1);
+        users.add(newUser2);
+        users.add(newUser3);
+        users.add(newUser4);
+    }
 }
