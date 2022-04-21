@@ -11,38 +11,36 @@ import java.util.Scanner;
 
 public class UserController {
     //just an arraylist to store users
-    static ArrayList<User> users = new ArrayList<User>();
+    static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
 
         String name = dataToCreateUser.get("name");
         String surname = dataToCreateUser.get("surname");
-        int age = Integer.valueOf(dataToCreateUser.get("age"));
-        long cardNumber = Long.valueOf((dataToCreateUser.get("cardNumber")));
-        double amount = Double.valueOf(dataToCreateUser.get("amount"));
+        int age = Integer.parseInt(dataToCreateUser.get("age"));
+        long cardNumber = Long.parseLong((dataToCreateUser.get("cardNumber")));
+        double amount = Double.parseDouble(dataToCreateUser.get("amount"));
         String cardType = dataToCreateUser.get("cardType");
 
         //Let s introduce data to create User
-        User createddUser = new User(name, surname, age, new Card(cardNumber, amount, cardType));
-        System.out.println("User created: " + createddUser);
+        User createdUser = new User(name, surname, age, new Card(cardNumber, amount, cardType));
+
         //Let s add this new User object to the main (and just one) array
-        users.add(createddUser);
+        boolean statusOperation = users.add(createdUser);
 
+        HashMap<String, String> createUserResponse = new HashMap<>();
+        createUserResponse.put("response", "createUserResponse");
 
-        System.out.println("User added to users: " + users);
+        if (statusOperation) createUserResponse.put("status", "created");
+        else createUserResponse.put("status", "not created");
 
-        HashMap<String, String> response = new HashMap<>();
-        response.put("response", "createUserResponse");
-        response.put("status", "created");
-
-
-        return response;
+        return createUserResponse;
     }
 
     public static void changePin(Scanner reader, ArrayList<User> users) {
         //ask for card number and check if this card number exists within users
         //and get the index from the array, if it does not exist, get -1
-        Integer number = Integer.valueOf(Utilities.ask(reader, "Number Card?"));
+        int number = Integer.parseInt(Utilities.ask(reader, "Number Card?"));
         int position = UserService.isCardNumber(number, users);
 
         //if card number exists make the change Pin operation
@@ -56,9 +54,9 @@ public class UserController {
 
     public static void transfer(Scanner reader, ArrayList<User> users) {
         //ask for both credit card numbers and make a transfer
-        Long originCardNumber = Long.valueOf(Utilities.ask(reader, "Number Card from?"));
+        long originCardNumber = Long.parseLong(Utilities.ask(reader, "Number Card from?"));
         int originPosition = UserService.isCardNumber(originCardNumber, users);
-        Long destinationCardNumber = Long.valueOf(Utilities.ask(reader, "Number Card to?"));
+        long destinationCardNumber = Long.parseLong(Utilities.ask(reader, "Number Card to?"));
         int destinationPosition = UserService.isCardNumber(destinationCardNumber, users);
 
         if (originPosition > -1 && destinationPosition > -1) {
@@ -76,9 +74,9 @@ public class UserController {
         }
     }
 
-    public static void deposit(Scanner reader, ArrayList users) {
+    public static void deposit(Scanner reader, ArrayList<User> users) {
         //just ask for amount and add this money to card
-        Integer number = Integer.valueOf(Utilities.ask(reader, "Number Card?"));
+        int number = Integer.parseInt(Utilities.ask(reader, "Number Card?"));
         int position = UserService.isCardNumber(number, users);
 
         if (position > -1) {

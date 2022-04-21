@@ -4,22 +4,59 @@ import com.company.controller.UserController;
 import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.UserService;
+import com.company.view.IOView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserTest {
 
     public static void test() {
-        ArrayList<User> usersTest = new ArrayList();
-        createFakeUsers(usersTest);
+        testCreateUserController();
+        unitaryTestCreateUserController();
+        //ArrayList<User> usersTest = new ArrayList();
+        //createFakeUsers(usersTest);
         //printUsers(users);
-        testChangePinOK(usersTest);
-        testChangePinFAIL(usersTest);
-        testTransferOK(usersTest);
+        //testChangePinOK(usersTest);
+        //testChangePinFAIL(usersTest);
+        //testTransferOK(usersTest);
         //testDeposit(users);
         //testLoan(users);
-        testTransferCompleteProcessOK(usersTest);
+        //testTransferCompleteProcessOK(usersTest);
+    }
+
+    public static void testCreateUserController() {
+        //test view so we need to send data as string
+        String fakedata = "Alex\n" + "Jhones\n" + "12\n" + "1234123412341234\n" + "500.00\n" + "Visa\n";
+        Scanner fakeReader = new Scanner(fakedata);
+
+        String status = IOView.createUser(fakeReader);
+        if (status.equals("created")) System.out.println("testCreateUserController OK");
+        else System.out.println("testCreateUserController FAIL");
+    }
+
+    public static void unitaryTestCreateUserController() {
+        //to test and discover weather
+        // (1) user is created
+        // (2) user is saved in arraylist properly
+        // (3) get hashmap and unpack it
+        // (4) create response hashmap and works
+
+        HashMap<String, String> fakedata = new HashMap();
+
+        fakedata.put("operation", "createUser");
+        fakedata.put("name", "Sonia");
+        fakedata.put("surname", "Lopes");
+        fakedata.put("age", "10");
+        fakedata.put("cardNumber", "1234123412341234");
+        fakedata.put("amount", "50.00");
+        fakedata.put("cardType", "Visa");
+
+        HashMap<String, String> responseHashMap = UserController.createUser(fakedata);
+
+        if (responseHashMap.get("status").equals("created")) System.out.println("unitaryTestCreateUserController OK");
+        else System.out.println("unitaryTestCreateUserController FAIL");
     }
 
     public static void createFakeUsers(ArrayList<User> users) {
@@ -96,6 +133,10 @@ public class UserTest {
 
 
         String testInput = "1234123412341234\n" + "4321432143214321\n" + "50.00\n";
+        //to test a feature
+        //to send fake data
+        //create a scanner object
+        //call a new class Scanner
         Scanner readerTest = new Scanner(testInput);
 
         //OPTION B) send reader

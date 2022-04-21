@@ -54,7 +54,7 @@ public class IOView {
         }
     }
 
-    public static void createUser(Scanner reader) {
+    public static String createUser(Scanner reader) {
         //Let s introduce data to create User's card
         String name = Utilities.ask(reader, "Name?");
         String surname = Utilities.ask(reader, "Surname?");
@@ -72,11 +72,13 @@ public class IOView {
         createUserRequest.put("cardNumber", number);
         createUserRequest.put("amount", amount);
         createUserRequest.put("cardType", type);
-        //send data to controller
 
-        HashMap<String, String> response = FrontController.mainLoopController(createUserRequest);
-        String status = response.get("status");
-        System.out.println("status user: " + status + "\n");
+        //send data to controller and get the response
+        HashMap<String, String> createUserResponse = FrontController.mainLoopController(createUserRequest);
+        String createUserStatus = createUserResponse.get("status");
+        System.out.println("status user: " + createUserStatus + "\n");
+
+        return createUserStatus;
     }
 
     public static void changePin(Scanner reader) {
