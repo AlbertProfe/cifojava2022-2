@@ -102,6 +102,7 @@ public class UserController {
     }
 
     public static void createFakeUsers() {
+        //just to work with them, no having an void arraylist
         User newUser1 = new User("Alex", "Pixel", 25, new Card(1234123412341234L, 500.00, "Visa"));
         User newUser2 = new User("Thomas", "Edison", 35, new Card(4321432143214321L, 1500.00, "Master Card"));
         User newUser3 = new User("Susan", "Lane", 46, new Card(1111222233334444L, 2500.00, "American Express"));

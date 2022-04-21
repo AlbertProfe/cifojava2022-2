@@ -24,6 +24,7 @@ public class IOView {
                 //We create this feature to test our soft
                 UserTest.test();
             } else if (command.equals("release")) {
+                //create fakeu sers to work with them
                 UserController.createFakeUsers();
                 releaseLoopView(reader);
             } else System.out.println("Unknown command");
