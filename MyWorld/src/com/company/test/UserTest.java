@@ -22,8 +22,8 @@ public class UserTest {
         testCreateUserController();
         testChangePinView();
         testChangePinController(usersTest);
-        //testChangePinFAIL(usersTest);
-        //testTransferOK(usersTest);
+        testTransferController(usersTest);
+        testTransferView(usersTest);
         //testDeposit(users);
         //testLoan(users);
         //testTransferCompleteProcessOK(usersTest);
@@ -55,8 +55,8 @@ public class UserTest {
         Scanner fakeReader = new Scanner(fakeDataUser);
 
         String status = IOView.createUser(fakeReader);
-        if (status.equals("created")) System.out.println("testCreateUserView OK");
-        else System.out.println("testCreateUserView FAIL");
+        if (status.equals("created")) System.out.println("Test #testCreateUserView OK");
+        else System.out.println("Test #testCreateUserView FAIL");
     }
 
     public static void testCreateUserController() {
@@ -76,8 +76,8 @@ public class UserTest {
 
         HashMap<String, String> responseHashMap = UserController.createUser(fakeDataUser);
 
-        if (responseHashMap.get("status").equals("created")) System.out.println("testCreateUserController OK");
-        else System.out.println("testCreateUserController FAIL");
+        if (responseHashMap.get("status").equals("created")) System.out.println("Test #testCreateUserController OK");
+        else System.out.println("Test #testCreateUserController FAIL");
     }
 
     public static void testChangePinView() {
@@ -86,8 +86,8 @@ public class UserTest {
         Scanner fakeReader = new Scanner(fakeDataUser);
 
         String status = IOView.changePin(fakeReader);
-        if (status.equals("pinUpdated")) System.out.println("testChangePinView OK");
-        else System.out.println("testChangePinView FAIL");
+        if (status.equals("pinUpdated")) System.out.println("Test #testChangePinView OK");
+        else System.out.println("Test #testChangePinView FAIL");
     }
 
     public static void testChangePinController(ArrayList<User> users) {
@@ -100,74 +100,65 @@ public class UserTest {
 
         HashMap<String, String> responseHashMap = UserController.changePin(fakeDataUser);
 
-        if (responseHashMap.get("status").equals("pinUpdated")) System.out.println("testChangePinController OK");
-        else System.out.println("testChangePinController FAIL");
+        if (responseHashMap.get("status").equals("pinUpdated")) System.out.println("Test #testChangePinController OK");
+        else System.out.println("Test #testChangePinController FAIL");
 
     }
 
-
-    public static void testTransferOK(ArrayList<User> users) {
+    public static void testTransferController(ArrayList<User> users) {
         //test: check 4 methods to make a transfer
         int positionOrigin = UserService.isCardNumber(1234123412341234L, users);
         int positionDestination = UserService.isCardNumber(4321432143214321L, users);
 
-        if (positionOrigin >= 0 && positionDestination >= 0) System.out.println("Test #testTransferCardsOK OK");
-        else System.out.println("Test # #testTransferCardsOK FAIL");
+        if (positionOrigin >= 0 && positionDestination >= 0) System.out.println("Test #testTransferCards OK");
+        else System.out.println("Test #testTransferCards FAIL");
 
         boolean isMoney = UserService.isEnoughAmount(users, positionOrigin, 50.00);
-        if (isMoney) System.out.println("Test #testTransferIsMoneyOK OK");
-        else System.out.println("Test # #testTransferIsMoneyOK FAIL");
+        if (isMoney) System.out.println("Test #testTransferIsMoney OK");
+        else System.out.println("Test #testTransferIsMoney FAIL");
 
         UserService.makeTransfer(positionOrigin, positionDestination, 50.00, users);
 
         double rightAmountAfterMakeTransferOrigin = users.get(positionOrigin).getCard().getAmount();
-        if (rightAmountAfterMakeTransferOrigin == 450.00) System.out.println("Test #testTransferMakeOriginOK OK");
-        else System.out.println("Test # #testTransferMakeOriginOK FAIL");
+        if (rightAmountAfterMakeTransferOrigin == 450.00) System.out.println("Test #testTransferMakeOrigin OK");
+        else System.out.println("Test #testTransferMakeOrigin FAIL");
 
         double rightAmountAfterMakeTransferDestination = users.get(positionDestination).getCard().getAmount();
         if (rightAmountAfterMakeTransferDestination == 1550.00)
-            System.out.println("Test #testTransferMakeDestinationOK OK");
-        else System.out.println("Test # #testTransferMakeDestinationOK FAIL");
+            System.out.println("Test #testTransferMakeDestination OK");
+        else System.out.println("Test #testTransferMakeDestination FAIL");
 
     }
 
-    public static void testTransferFAIL(ArrayList<User> users) {
-        //to-do
-    }
-
-    public static void testTransferCompleteProcessOK(ArrayList<User> users) {
-        //to-do: we need to create a fake scanner to test the WHOLE method as a unitary test
-        Long cardNumberOrigin = 1234123412341234L;
-        Long cardNumberDestination = 4321432143214321L;
-        double amountToTransfer = 50.00;
-
-        //OPTION (A) method overload: remove reader and send two longs and one int
-        //UserController.transfer(cardNumberOrigin, cardNumberOrigin, amount, users);
-
+    public static void testTransferView(ArrayList<User> users) {
 
         String testInput = "1234123412341234\n" + "4321432143214321\n" + "50.00\n";
-        //to test a feature
-        //to send fake data
-        //create a scanner object
-        //call a new class Scanner
         Scanner readerTest = new Scanner(testInput);
-
-        //OPTION (B) send reader
-        UserController.transfer(readerTest, users);
-
-
-        //OPTION (C) replicate method here
+        IOView.transfer(readerTest);
 
         double rightAmountAfterMakeTransferOrigin = users.get(0).getCard().getAmount();
-        if (rightAmountAfterMakeTransferOrigin == 450.00)
-            System.out.println("Test #testTransferCompleteProcessOriginOK OK");
-        else System.out.println("Test # #testTransferCompleteProcessOriginOK FAIL");
+        if (rightAmountAfterMakeTransferOrigin == 400.00)
+            System.out.println("Test #testTransferCompleteProcessOrigin OK");
+        else System.out.println("Test #testTransferCompleteProcessOrigin FAIL");
 
         double rightAmountAfterMakeTransferDestination = users.get(1).getCard().getAmount();
-        if (rightAmountAfterMakeTransferDestination == 1550.00)
-            System.out.println("Test #testTransferCompleteProcessnDestinationOK OK");
-        else System.out.println("Test # #testTransferCompleteProcessDestinationOK FAIL");
+        if (rightAmountAfterMakeTransferDestination == 1600.00)
+            System.out.println("Test #testTransferCompleteProcessnDestination OK");
+        else System.out.println("Test #testTransferCompleteProcessnDestination FAIL");
+
+//        testInput = "4234123412341234\n" + "4321432143214321\n" + "50.00\n";
+//        readerTest = new Scanner(testInput);
+//         IOView.transfer(readerTest);
+//
+//        testInput = "1234123412341234\n" + "321432143214321\n" + "50.00\n";
+//        readerTest = new Scanner(testInput);
+//         IOView.transfer(readerTest);
+//
+//        testInput = "1234123412341234\n" + "4321432143214321\n" + "500000.00\n";
+//        readerTest = new Scanner(testInput);
+//         IOView.transfer(readerTest);
     }
+
 
     public static void testDeposit(ArrayList<User> users) {
         //to-do
@@ -176,6 +167,5 @@ public class UserTest {
     public static void loan(ArrayList<User> users) {
         //to-do
     }
-
 
 }

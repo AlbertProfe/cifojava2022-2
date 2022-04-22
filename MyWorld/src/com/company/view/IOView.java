@@ -24,7 +24,11 @@ public class IOView {
                 //We create this feature to test our soft
                 UserTest.test();
             } else if (command.equals("release")) {
-                //create fakeu sers to work with them
+                //create fake users to work with them
+                //this is a very BAD solution, so it is temporal
+                //just for having some users to work with them
+                //to-do: create a JSON to import when boot soft
+                //or just a DB
                 UserController.createFakeUsers();
                 releaseLoopView(reader);
             } else System.out.println("Unknown command");
@@ -94,7 +98,6 @@ public class IOView {
         changePinRequest.put("cardNumber", cardNumber);
         changePinRequest.put("newPin", newPin);
 
-
         HashMap<String, String> changePinResponse = FrontController.mainLoopController(changePinRequest);
         String changePinStatus = changePinResponse.get("status");
         System.out.println("status user: " + changePinStatus + "\n" + changePinResponse.get("message"));
@@ -103,7 +106,24 @@ public class IOView {
 
     }
 
-    public static void transfer(Scanner reader) {
+    public static String transfer(Scanner reader) {
+        //ask for card number and check if this card number exists within users
+        String originCardNumber = Utilities.ask(reader, "Origin Number Card?");
+        String destinationCardNumber = Utilities.ask(reader, "Destination Number Card?");
+        String amount = Utilities.ask(reader, "Amount?");
+
+        HashMap<String, String> transferRequest = new HashMap<>();
+        //fill data hashmap object
+        transferRequest.put("operation", "transfer");
+        transferRequest.put("originCardNumber", originCardNumber);
+        transferRequest.put("destinationCardNumber", destinationCardNumber);
+        transferRequest.put("amount", amount);
+
+        HashMap<String, String> transferResponse = FrontController.mainLoopController(transferRequest);
+        String transferStatus = transferResponse.get("status");
+        System.out.println("status transfer: " + transferStatus + "\n" + transferResponse.get("message"));
+
+        return transferStatus;
 
     }
 

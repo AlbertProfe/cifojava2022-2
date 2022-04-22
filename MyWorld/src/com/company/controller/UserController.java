@@ -62,26 +62,41 @@ public class UserController {
         return changePinResponse;
     }
 
-    public static void transfer(Scanner reader, ArrayList<User> users) {
-        //ask for both credit card numbers and make a transfer
-        long originCardNumber = Long.parseLong(Utilities.ask(reader, "Number Card from?"));
-        int originPosition = UserService.isCardNumber(originCardNumber, users);
-        long destinationCardNumber = Long.parseLong(Utilities.ask(reader, "Number Card to?"));
-        int destinationPosition = UserService.isCardNumber(destinationCardNumber, users);
+    public static HashMap<String, String> transfer(HashMap<String, String> dataToTransfer) {
+        //
+        long originCardNumber = Long.valueOf((dataToTransfer.get("originCardNumber")));
+        long destinationCardNumber = Long.valueOf((dataToTransfer.get("destinationCardNumber")));
+        double amount = Double.parseDouble(dataToTransfer.get("amount"));
 
-        if (originPosition > -1 && destinationPosition > -1) {
-            Double amount = Double.valueOf(Utilities.ask(reader, "Amount?"));
-            //validate transfer depends on amount
-            boolean isMoney = UserService.isEnoughAmount(reader, users, originPosition, amount);
-            if (isMoney) {
-                //now it is possible to make a transfer, call makeTransfer
-                UserService.makeTransfer(originPosition, destinationPosition, amount, users);
-            } else {
-                System.out.println("Check if credit card has not got enough money to make a transfer ...");
-            }
-        } else {
-            System.out.println("Check if credit card numbers are right ...");
+        int originPosition = UserService.isCardNumber(originCardNumber, users);
+        boolean isOriginCardNumber = originPosition > -1;
+
+        int destinationPosition = UserService.isCardNumber(destinationCardNumber, users);
+        boolean isDestinationCardNumber = destinationPosition > -1;
+
+        boolean isMoney = false;
+        if (isOriginCardNumber) {
+            isMoney = UserService.isEnoughAmount(users, originPosition, amount);
         }
+
+        HashMap<String, String> transferResponse = new HashMap<>();
+        transferResponse.put("response", "transferResponse");
+        transferResponse.put("status", "transfer NOT done");
+
+        if (!isOriginCardNumber) {
+            transferResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
+        } else if (!isDestinationCardNumber) {
+            transferResponse.put("message", "This credit card number (destination) ( #: " + destinationCardNumber + " ) does not exist");
+        } else if (!isMoney) {
+            transferResponse.put("message", "Check if credit card has not got enough money to make a transfer ...");
+        } else {
+            //now it is possible to make a transfer, call makeTransfer
+            UserService.makeTransfer(originPosition, destinationPosition, amount, users);
+            transferResponse.put("status", "transfer done");
+            transferResponse.put("message", "From " + originCardNumber + " to " + destinationCardNumber + " " + amount);
+        }
+
+        return transferResponse;
     }
 
     public static void deposit(Scanner reader, ArrayList<User> users) {
@@ -102,7 +117,7 @@ public class UserController {
     }
 
     public static void createFakeUsers() {
-        //just to work with them, no having an void arraylist
+        //just to work with them, no having a void arraylist
         User newUser1 = new User("Alex", "Pixel", 25, new Card(1234123412341234L, 500.00, "Visa"));
         User newUser2 = new User("Thomas", "Edison", 35, new Card(4321432143214321L, 1500.00, "Master Card"));
         User newUser3 = new User("Susan", "Lane", 46, new Card(1111222233334444L, 2500.00, "American Express"));

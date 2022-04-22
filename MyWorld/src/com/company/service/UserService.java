@@ -3,23 +3,14 @@ package com.company.service;
 import com.company.model.User;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UserService {
-
-    /*public static boolean isCardNumber (int cardNumber, ArrayList<User> users){
-        boolean isCard = false;
-        for (User user : users){
-            if (user.getCard().getNumber() == cardNumber)  isCard= true;
-         }
-        return isCard;
-    }*/
 
     public static int isCardNumber(long cardNumber, ArrayList<User> users) {
         //find out if cardNumber exists in users
         int position = -1;
         for (User user : users) {
-            if (user.getCard().getNumber() == cardNumber) position = users.indexOf(user);/**/
+            if (user.getCard().getNumber() == cardNumber) position = users.indexOf(user);
         }
         return position;
     }
@@ -43,14 +34,24 @@ public class UserService {
         return position;
     }
 
-    public static void updatePin(int newPin, ArrayList<User> users, int position) {
-        users.get(position).getCard().setPin(newPin);
+    public static boolean isCardNumberBool(int cardNumber, ArrayList<User> users) {
+        boolean isCard = false;
+        for (User user : users) {
+            if (user.getCard().getNumber() == cardNumber) isCard = true;
+        }
+        return isCard;
     }
 
-    public static boolean isEnoughAmount(Scanner reader, ArrayList<User> users, int position, Double amount) {
-        //check if is enough money in origin card
-        boolean isMoney = users.get(position).getCard().getAmount() >= amount;
-        return isMoney;
+    public static User isCardNumberUser(int cardNumber, ArrayList<User> users) {
+        User isUser = null;
+        for (User user : users) {
+            if (user.getCard().getNumber() == cardNumber) isUser = user;
+        }
+        return isUser;
+    }
+
+    public static void updatePin(int newPin, ArrayList<User> users, int position) {
+        users.get(position).getCard().setPin(newPin);
     }
 
     public static boolean isEnoughAmount(ArrayList<User> users, int position, Double amount) {
