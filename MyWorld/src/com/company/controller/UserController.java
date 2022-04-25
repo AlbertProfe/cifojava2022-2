@@ -3,11 +3,9 @@ package com.company.controller;
 import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.UserService;
-import com.company.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class UserController {
     //just an arraylist to store users
@@ -99,18 +97,27 @@ public class UserController {
         return transferResponse;
     }
 
-    public static void deposit(Scanner reader, ArrayList<User> users) {
-        //just ask for amount and add this money to card
-        int number = Integer.parseInt(Utilities.ask(reader, "Number Card?"));
-        int position = UserService.isCardNumber(number, users);
+    public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
+        //
+        long originCardNumber = Long.valueOf((dataToDeposit.get("originCardNumber")));
+        double amount = Double.parseDouble(dataToDeposit.get("amount"));
 
-        if (position > -1) {
-            //now it is possible to make a deposit, call makeDeposit
-            Double amount = Double.valueOf(Utilities.ask(reader, "Amount?"));
-            UserService.makeDeposit(position, amount, users);
+        int originPosition = UserService.isCardNumber(originCardNumber, users);
+        boolean isOriginCardNumber = originPosition > -1;
+
+        HashMap<String, String> depositResponse = new HashMap<>();
+        depositResponse.put("response", "depositResponse");
+        depositResponse.put("status", "deposit NOT done");
+
+        if (isOriginCardNumber) {
+            UserService.makeDeposit(originPosition, amount, users);
+            depositResponse.put("message", "Deposit " + originCardNumber + " of " + amount);
+            depositResponse.put("status", "transfer done");
         } else {
-            System.out.println("Check if credit card numbers are right ...");
+            depositResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
         }
+
+        return depositResponse;
     }
 
     public static void loan() {

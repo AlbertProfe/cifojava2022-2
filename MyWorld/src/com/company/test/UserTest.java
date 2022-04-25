@@ -25,11 +25,10 @@ public class UserTest {
         //testChangePinController(usersTest);
 
         //testTransferController(usersTest);
-        testTransferView();
+        //testTransferView();
 
-        //testDeposit(users);
+        testDepositView();
         //testLoan(users);
-        //testTransferCompleteProcessOK(usersTest);
         System.out.println("Tests ending... \n");
     }
 
@@ -153,13 +152,20 @@ public class UserTest {
             if (isAmountDestination)
                 System.out.println("Test #testTransferMakeDestination OK");
             else System.out.println("Test #testTransferMakeDestination FAIL");
-
-
     }
 
 
-    public static void testDeposit(ArrayList<User> users) {
-        //to-do
+    public static void testDepositView() {
+        String testInput = "4444333322221111\n" + "100.00\n";
+        Scanner readerTest = new Scanner(testInput);
+        IOView.deposit(readerTest);
+
+        double rightAmountAfterMakeDeposit = 2000.00;
+        double amountAfterMakeDeposit = UserController.getFakeUsers().get(3).getCard().getAmount();
+        boolean isAmount = amountAfterMakeDeposit == rightAmountAfterMakeDeposit;
+        if (isAmount)
+            System.out.println("Test #testDeposit OK");
+        else System.out.println("Test #testDeposit FAIL");
     }
 
     public static void loan(ArrayList<User> users) {

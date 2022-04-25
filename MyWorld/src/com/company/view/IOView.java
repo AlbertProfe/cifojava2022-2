@@ -128,7 +128,22 @@ public class IOView {
 
     }
 
-    public static void deposit(Scanner reader) {
+    public static String deposit(Scanner reader) {
+        //ask for card number and check if this card number exists within users
+        String originCardNumber = Utilities.ask(reader, "Origin Number Card?");
+        String amount = Utilities.ask(reader, "Amount?");
+
+        HashMap<String, String> depositRequest = new HashMap<>();
+        //fill data hashmap object
+        depositRequest.put("operation", "deposit");
+        depositRequest.put("originCardNumber", originCardNumber);
+        depositRequest.put("amount", amount);
+
+        HashMap<String, String> depositResponse = FrontController.mainLoopController(depositRequest);
+        String depositStatus = depositRequest.get("status");
+        System.out.println("status deposit: " + depositStatus + "\n" + depositResponse.get("message"));
+
+        return depositStatus;
 
     }
 
