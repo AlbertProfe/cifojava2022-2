@@ -13,6 +13,12 @@ public class IOView {
     public static void mainLoopView() {
         //just scanner object to manage io
         Scanner reader = new Scanner(System.in);
+        //create fake users to work with them
+        //this is a very BAD solution, so it is temporal
+        //just for having some users to work with them
+        //to-do: create a JSON to import when boot soft
+        //or just a DB
+        UserController.createFakeUsers();
         while (true) {
             //print mode menu
             Menu.modeMenu();
@@ -24,12 +30,7 @@ public class IOView {
                 //We create this feature to test our soft
                 UserTest.test();
             } else if (command.equals("release")) {
-                //create fake users to work with them
-                //this is a very BAD solution, so it is temporal
-                //just for having some users to work with them
-                //to-do: create a JSON to import when boot soft
-                //or just a DB
-                UserController.createFakeUsers();
+                //We create this feature to release our soft
                 releaseLoopView(reader);
             } else System.out.println("Unknown command");
         }
@@ -128,6 +129,10 @@ public class IOView {
     }
 
     public static void deposit(Scanner reader) {
+
+    }
+
+    public static void loan(Scanner reader) {
 
     }
 

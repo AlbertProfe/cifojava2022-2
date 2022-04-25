@@ -127,4 +127,8 @@ public class UserController {
         users.add(newUser3);
         users.add(newUser4);
     }
+
+    public static ArrayList<User> getFakeUsers() {
+        return users;
+    }
 }

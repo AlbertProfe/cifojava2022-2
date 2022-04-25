@@ -15,15 +15,18 @@ public class UserTest {
     public static void test() {
         //array list users to test
         ArrayList<User> usersTest = new ArrayList<>();
-        createFakeUsers(usersTest);
+        //createFakeUsers(usersTest);
         //printUsers(users);
         //unitary tests
-        testCreateUserView();
-        testCreateUserController();
-        testChangePinView();
-        testChangePinController(usersTest);
-        testTransferController(usersTest);
-        testTransferView(usersTest);
+        //testCreateUserView();
+        //testCreateUserController();
+
+        //testChangePinView();
+        //testChangePinController(usersTest);
+
+        //testTransferController(usersTest);
+        testTransferView();
+
         //testDeposit(users);
         //testLoan(users);
         //testTransferCompleteProcessOK(usersTest);
@@ -130,33 +133,28 @@ public class UserTest {
 
     }
 
-    public static void testTransferView(ArrayList<User> users) {
+    public static void testTransferView() {
 
         String testInput = "1234123412341234\n" + "4321432143214321\n" + "50.00\n";
         Scanner readerTest = new Scanner(testInput);
         IOView.transfer(readerTest);
 
-        double rightAmountAfterMakeTransferOrigin = users.get(0).getCard().getAmount();
-        if (rightAmountAfterMakeTransferOrigin == 400.00)
-            System.out.println("Test #testTransferCompleteProcessOrigin OK");
-        else System.out.println("Test #testTransferCompleteProcessOrigin FAIL");
+        double rightAmountAfterMakeTransferOrigin = 450.00;
+        double amountAfterMakeTransferOrigin = UserController.getFakeUsers().get(0).getCard().getAmount();
+        boolean isAmountOrigin = amountAfterMakeTransferOrigin == rightAmountAfterMakeTransferOrigin;
+        if (isAmountOrigin)
+            System.out.println("Test #testTransferMakeOrigin OK");
+        else System.out.println("Test #testTransferMakeOrigin FAIL");
 
-        double rightAmountAfterMakeTransferDestination = users.get(1).getCard().getAmount();
-        if (rightAmountAfterMakeTransferDestination == 1600.00)
-            System.out.println("Test #testTransferCompleteProcessnDestination OK");
-        else System.out.println("Test #testTransferCompleteProcessnDestination FAIL");
+        double rightAmountAfterMakeTransferDestination = UserController.getFakeUsers().get(1).getCard().getAmount();
+        double amountAfterMakeTransferDestination = 1550.00;
+        boolean isAmountDestination = amountAfterMakeTransferDestination == rightAmountAfterMakeTransferDestination;
+        if (isAmountDestination)
+            if (isAmountDestination)
+                System.out.println("Test #testTransferMakeDestination OK");
+            else System.out.println("Test #testTransferMakeDestination FAIL");
 
-//        testInput = "4234123412341234\n" + "4321432143214321\n" + "50.00\n";
-//        readerTest = new Scanner(testInput);
-//         IOView.transfer(readerTest);
-//
-//        testInput = "1234123412341234\n" + "321432143214321\n" + "50.00\n";
-//        readerTest = new Scanner(testInput);
-//         IOView.transfer(readerTest);
-//
-//        testInput = "1234123412341234\n" + "4321432143214321\n" + "500000.00\n";
-//        readerTest = new Scanner(testInput);
-//         IOView.transfer(readerTest);
+
     }
 
 
