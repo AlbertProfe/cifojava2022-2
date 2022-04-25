@@ -16,7 +16,7 @@ public class UserTest {
         //array list users to test
         ArrayList<User> usersTest = new ArrayList<>();
         createFakeUsers(usersTest);
-        //printUsers(users);
+        printUsers(usersTest);
         //unitary tests
         testCreateUserView();
         testCreateUserController();
