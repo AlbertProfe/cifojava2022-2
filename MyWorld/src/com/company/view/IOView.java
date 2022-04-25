@@ -140,7 +140,7 @@ public class IOView {
         depositRequest.put("amount", amount);
 
         HashMap<String, String> depositResponse = FrontController.mainLoopController(depositRequest);
-        String depositStatus = depositRequest.get("status");
+        String depositStatus = depositResponse.get("status");
         System.out.println("status deposit: " + depositStatus + "\n" + depositResponse.get("message"));
 
         return depositStatus;

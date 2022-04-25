@@ -110,8 +110,11 @@ public class UserController {
         depositResponse.put("status", "deposit NOT done");
 
         if (isOriginCardNumber) {
+            double balance = users.get(originPosition).getCard().getAmount();
             UserService.makeDeposit(originPosition, amount, users);
-            depositResponse.put("message", "Deposit " + originCardNumber + " of " + amount);
+            double balanceAfterDeposit = users.get(originPosition).getCard().getAmount();
+
+            depositResponse.put("message", "Deposit " + originCardNumber + " of " + amount + ". Balance account: " + balance + " to " + balanceAfterDeposit);
             depositResponse.put("status", "transfer done");
         } else {
             depositResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
