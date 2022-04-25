@@ -15,17 +15,17 @@ public class UserTest {
     public static void test() {
         //array list users to test
         ArrayList<User> usersTest = new ArrayList<>();
-        //createFakeUsers(usersTest);
+        createFakeUsers(usersTest);
         //printUsers(users);
         //unitary tests
-        //testCreateUserView();
-        //testCreateUserController();
+        testCreateUserView();
+        testCreateUserController();
 
-        //testChangePinView();
-        //testChangePinController(usersTest);
+        testChangePinView();
+        testChangePinController(usersTest);
 
-        //testTransferController(usersTest);
-        //testTransferView();
+        testTransferController(usersTest);
+        testTransferView();
 
         testDepositView();
         //testLoan(users);
@@ -53,7 +53,7 @@ public class UserTest {
 
     public static void testCreateUserView() {
         //test view so we need to send data as string
-        String fakeDataUser = "Alex\n" + "Jones\n" + "12\n" + "1234123412341234\n" + "500.00\n" + "Visa\n";
+        String fakeDataUser = "Bruce\n" + "Jones\n" + "12\n" + "88889999555533334\n" + "500.00\n" + "Visa\n";
         Scanner fakeReader = new Scanner(fakeDataUser);
 
         String status = IOView.createUser(fakeReader);
@@ -72,7 +72,7 @@ public class UserTest {
         fakeDataUser.put("name", "Sonia");
         fakeDataUser.put("surname", "Lopes");
         fakeDataUser.put("age", "10");
-        fakeDataUser.put("cardNumber", "1234123412341234");
+        fakeDataUser.put("cardNumber", "9999222244447777");
         fakeDataUser.put("amount", "50.00");
         fakeDataUser.put("cardType", "Visa");
 
@@ -138,14 +138,16 @@ public class UserTest {
         Scanner readerTest = new Scanner(testInput);
         IOView.transfer(readerTest);
 
+        ArrayList<User> usersFromContorller = UserController.getFakeUsers();
+
         double rightAmountAfterMakeTransferOrigin = 450.00;
-        double amountAfterMakeTransferOrigin = UserController.getFakeUsers().get(0).getCard().getAmount();
+        double amountAfterMakeTransferOrigin = usersFromContorller.get(0).getCard().getAmount();
         boolean isAmountOrigin = amountAfterMakeTransferOrigin == rightAmountAfterMakeTransferOrigin;
         if (isAmountOrigin)
             System.out.println("Test #testTransferMakeOrigin OK");
         else System.out.println("Test #testTransferMakeOrigin FAIL");
 
-        double rightAmountAfterMakeTransferDestination = UserController.getFakeUsers().get(1).getCard().getAmount();
+        double rightAmountAfterMakeTransferDestination = usersFromContorller.get(1).getCard().getAmount();
         double amountAfterMakeTransferDestination = 1550.00;
         boolean isAmountDestination = amountAfterMakeTransferDestination == rightAmountAfterMakeTransferDestination;
         if (isAmountDestination)

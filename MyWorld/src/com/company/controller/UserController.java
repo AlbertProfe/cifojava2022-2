@@ -89,9 +89,16 @@ public class UserController {
             transferResponse.put("message", "Check if credit card has not got enough money to make a transfer ...");
         } else {
             //now it is possible to make a transfer, call makeTransfer
+            double originBalance = users.get(originPosition).getCard().getAmount();
+            double depositBalance = users.get(destinationPosition).getCard().getAmount();
             UserService.makeTransfer(originPosition, destinationPosition, amount, users);
+            double originBalanceAfterDeposit = users.get(originPosition).getCard().getAmount();
+            double destinationBalanceAfterDeposit = users.get(destinationPosition).getCard().getAmount();
+
             transferResponse.put("status", "transfer done");
-            transferResponse.put("message", "From " + originCardNumber + " to " + destinationCardNumber + " " + amount);
+            transferResponse.put("message", "From " + originCardNumber + " to " + destinationCardNumber + " " + amount
+                    + "\nBalance Origin account: " + originBalance + " to " + originBalanceAfterDeposit
+                    + "\nBalance Destination account: " + depositBalance + " to " + destinationBalanceAfterDeposit);
         }
 
         return transferResponse;
