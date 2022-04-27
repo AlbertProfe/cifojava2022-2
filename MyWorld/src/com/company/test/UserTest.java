@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class UserTest {
 
-    public static void test() {
+    public static void userTest() {
         //array list users to test
         ArrayList<User> usersTest = new ArrayList<>();
         createFakeUsers(usersTest);
@@ -29,7 +29,7 @@ public class UserTest {
 
         testDepositView();
         //testLoan(users);
-        System.out.println("Tests ending... \n");
+        System.out.println("Tests USER ending... \n");
     }
 
     public static void createFakeUsers(ArrayList<User> usersTest) {

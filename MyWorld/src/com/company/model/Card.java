@@ -49,6 +49,9 @@ public class Card {
         this.pin = pin;
     }
 
+    public void pay() {
+    }
+
     @Override
     public String toString() {
         return "Card{" +
