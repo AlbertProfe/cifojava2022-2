@@ -1,11 +1,15 @@
 package com.company.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Card {
 
-    long number;
-    double amount;
-    String type;
-    int pin;
+    public long number;
+    public double amount;
+    public String type;
+    public int pin;
+    public HashMap<String, ArrayList<Order>> ordersByMonth = new HashMap<>();
 
     public Card() {
     }

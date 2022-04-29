@@ -1,11 +1,17 @@
 package com.company.model;
 
+import java.util.HashMap;
+
 public class User {
 
-    String name;
-    String surname;
-    int age;
-    Card card;
+    public String name;
+    public String surname;
+    public int age;
+    //field cards is a set of CARD object
+    //each Card has its orders by Month
+    //that is, the orders will be in HashMap
+    //key-String-Month and value-List-Order
+    public HashMap<Long, Card> cards;
 
     public User() {
     }
@@ -14,14 +20,9 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.age = age;
+        this.cards = new HashMap<>();
     }
 
-    public User(String name, String surname, int age, Card card) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.card = card;
-    }
 
     public String getName() {
         return name;
@@ -47,21 +48,21 @@ public class User {
         this.age = age;
     }
 
-    public Card getCard() {
-        return card;
+    public HashMap<Long, Card> getCards() {
+        return cards;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
+    public void setCards(HashMap<Long, Card> cards) {
+        this.cards = cards;
     }
 
     @Override
     public String toString() {
-        return "\n\tUser{" +
+        return "User{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
-                ", card=" + card +
-                "}";
+                ", cards=" + cards +
+                '}';
     }
 }

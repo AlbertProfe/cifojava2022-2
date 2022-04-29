@@ -68,9 +68,9 @@ public class IOView {
         String name = Utilities.ask(reader, "Name?");
         String surname = Utilities.ask(reader, "Surname?");
         String age = Utilities.ask(reader, "Age?");
-        String number = Utilities.ask(reader, "Card Number?");
-        String amount = Utilities.ask(reader, "Amount?");
-        String type = Utilities.ask(reader, "Type?");
+        //String number = Utilities.ask(reader, "Card Number?");
+        //String amount = Utilities.ask(reader, "Amount?");
+        //String type = Utilities.ask(reader, "Type?");
         //create hashmap to send data to controller
         HashMap<String, String> createUserRequest = new HashMap<>();
         //fill data hashmap object
@@ -78,9 +78,9 @@ public class IOView {
         createUserRequest.put("name", name);
         createUserRequest.put("surname", surname);
         createUserRequest.put("age", age);
-        createUserRequest.put("cardNumber", number);
-        createUserRequest.put("amount", amount);
-        createUserRequest.put("cardType", type);
+        //createUserRequest.put("cardNumber", number);
+        //createUserRequest.put("amount", amount);
+        //createUserRequest.put("cardType", type);
 
         //send data to controller and get the response
         HashMap<String, String> createUserResponse = FrontController.mainLoopController(createUserRequest);

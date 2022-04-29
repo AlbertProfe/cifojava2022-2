@@ -1,10 +1,14 @@
 package com.company.frontcontroller;
 
 import com.company.controller.UserController;
+import com.company.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FrontController {
+    //just an arraylist to store users
+    static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> mainLoopController(HashMap<String, String> request) {
         //
