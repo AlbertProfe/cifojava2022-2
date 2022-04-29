@@ -41,11 +41,27 @@ public class UserController {
 
 
     public static void createFakeUsers() {
+        //let's create some cards
+        Card cardCreated1 = CardService.createCard();
+        Card cardCreated2 = CardService.createCard();
+        Card cardCreated3 = CardService.createCard();
+        Card cardCreated4 = CardService.createCard();
+        //let's extract the card number from card
+        long cardNumber1 = cardCreated1.getNumber();
+        long cardNumber2 = cardCreated1.getNumber();
+        long cardNumber3 = cardCreated1.getNumber();
+        long cardNumber4 = cardCreated1.getNumber();
         //just to work with them, no having a void arraylist
         User newUser1 = new User("Alex", "Pixel", 25);
         User newUser2 = new User("Thomas", "Edison", 35);
         User newUser3 = new User("Susan", "Lane", 46);
         User newUser4 = new User("Marta", "Gross", 86);
+        //let's fill the hashmap cards with the first card, key-value
+        newUser1.getCards().put(cardNumber1, cardCreated1);
+        newUser2.getCards().put(cardNumber2, cardCreated2);
+        newUser3.getCards().put(cardNumber3, cardCreated3);
+        newUser4.getCards().put(cardNumber4, cardCreated4);
+        //add users to list
         users.add(newUser1);
         users.add(newUser2);
         users.add(newUser3);

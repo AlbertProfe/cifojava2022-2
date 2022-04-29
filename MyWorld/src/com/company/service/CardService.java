@@ -15,6 +15,10 @@ public class CardService {
         return cardCreated;
     }
 
+    public static Card createCardByUser() {
+        return null;
+    }
+
 
 //    public static int isCardNumber(long cardNumber, ArrayList<User> users) {
 //        //find out if cardNumber exists in users
