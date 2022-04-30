@@ -9,7 +9,7 @@ public class Main {
         System.out.println("\nStarting myWorld, hello!\n");
 
         //we are starting the main loop
-        IOView.mainLoopView();
+        IOView.devLoopView();
 
         //Exit program
         System.out.println("\nFinishing myWorld, bye, bye!");

@@ -38,6 +38,11 @@ public class UserController {
         return createUserResponse;
     }
 
+    public static void printMembers() {
+        System.out.println("List members : ");
+        System.out.println("There is " + users.size() + " members right now");
+        System.out.println(users);
+    }
 
 
     public static void createFakeUsers() {

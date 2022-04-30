@@ -62,7 +62,7 @@ public class User {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
-                ", cards=" + cards +
-                '}';
+                ", \n\t cards=" + cards +
+                "}\n";
     }
 }

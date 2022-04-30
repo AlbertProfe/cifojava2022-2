@@ -2,8 +2,6 @@ package com.company.view;
 
 import com.company.controller.UserController;
 import com.company.frontcontroller.FrontController;
-import com.company.test.CardTest;
-import com.company.test.UserTest;
 import com.company.utils.Utilities;
 
 import java.util.HashMap;
@@ -11,7 +9,7 @@ import java.util.Scanner;
 
 public class IOView {
 
-    public static void mainLoopView() {
+    public static void devLoopView() {
         //just scanner object to manage io
         Scanner reader = new Scanner(System.in);
         //create fake users to work with them
@@ -22,34 +20,75 @@ public class IOView {
         UserController.createFakeUsers();
         while (true) {
             //print mode menu
-            Menu.modeMenu();
+            Menu.devMenu();
             String command = Utilities.ask(reader, "Mode?");
 
-            if (command.equals("Quit")) {
+            if (command.equals("quit")) {
                 break;
             } else if (command.equals("test")) {
                 //We create this feature to test our soft
-                UserTest.userTest();
-                CardTest.cardTest();
+                //UserTest.userTest();
+                //CardTest.cardTest();
             } else if (command.equals("release")) {
-                //We create this feature to release our soft
-                releaseLoopView(reader);
+                //Call the loop release
+                mainLoopView(reader);
             } else System.out.println("Unknown command");
         }
     }
 
-    public static void releaseLoopView(Scanner reader) {
-        //main loop starting
+    public static void mainLoopView(Scanner reader) {
+        //release loop starting
         while (true) {
             //print main menu
             Menu.mainMenu();
             String command = Utilities.ask(reader, "Option?");
 
-            if (command.equals("Quit")) {
+            if (command.equals("quit")) {
+                break;
+            } else if (command.equals("user")) {
+                //call the loop user
+                //releaseLoopUser(reader);
+            } else if (command.equals("admin")) {
+                //call the loop admin
+                releaseLoopAdmin(reader);
+            } else System.out.println("Unknown command");
+        }
+    }
+
+    public static void releaseLoopAdmin(Scanner reader) {
+        //release Admin loop starting
+        while (true) {
+            //print main menu
+            Menu.adminMenu();
+            String command = Utilities.ask(reader, "Option?");
+
+            if (command.equals("quit")) {
                 break;
             } else if (command.equals("createUser")) {
                 //call-operation to create new user
                 createUser(reader);
+            } else if (command.equals("createAdmin")) {
+                //call-operation to create new user
+                //createAdmin(reader);
+            } else if (command.equals("createCard")) {
+                //call-operation to create new card
+                //createCard(reader);
+            } else if (command.equals("listMembers")) {
+                //call-operation to list all members
+                listMembers();
+            } else System.out.println("Unknown command");
+        }
+    }
+
+    public static void releaseLoopUser(Scanner reader) {
+        //release User loop starting
+        while (true) {
+            //print user menu
+            Menu.adminMenu();
+            String command = Utilities.ask(reader, "Option?");
+
+            if (command.equals("quit")) {
+                break;
             } else if (command.equals("changePin")) {
                 //call-operation to change pin
                 changePin(reader);
@@ -59,6 +98,12 @@ public class IOView {
             } else if (command.equals("deposit")) {
                 //call-operation to deposit some amount
                 deposit(reader);
+            } else if (command.equals("buy")) {
+                //call-operation to create new user
+                //buy(reader);
+            } else if (command.equals("changePassword")) {
+                //call-operation to create new user
+                //changePassword(reader);
             } else System.out.println("Unknown command");
         }
     }
@@ -88,6 +133,17 @@ public class IOView {
         System.out.println("status user: " + createUserStatus + "\n");
 
         return createUserStatus;
+    }
+
+    public static void listMembers() {
+
+        HashMap<String, String> printMembersRequest = new HashMap<>();
+        //fill data hashmap object
+        printMembersRequest.put("operation", "printMembers");
+        //send data to controller and get the response
+        FrontController.mainLoopController(printMembersRequest);
+
+
     }
 
     public static String changePin(Scanner reader) {
@@ -146,10 +202,6 @@ public class IOView {
         System.out.println("status deposit: " + depositStatus + "\n" + depositResponse.get("message"));
 
         return depositStatus;
-
-    }
-
-    public static void loan(Scanner reader) {
 
     }
 

@@ -16,6 +16,7 @@ public class FrontController {
         response.put("status", "error");
         //
         if (request.get("operation").equals("createUser")) response = UserController.createUser(request);
+        else if (request.get("operation").equals("printMembers")) UserController.printMembers();
         // else if (request.get("operation").equals("changePin")) response = UserController.changePin(request);
         //else if (request.get("operation").equals("transfer")) response = UserController.transfer(request);
         //else if (request.get("operation").equals("deposit")) response = UserController.deposit(request);
