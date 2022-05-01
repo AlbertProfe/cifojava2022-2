@@ -3,7 +3,6 @@ package com.company.controller;
 import com.company.model.Card;
 import com.company.model.User;
 import com.company.service.CardService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +22,7 @@ public class UserController {
         Card cardCreated = CardService.createCard();
         //Let s introduce data to create User
         User createdUser = new User(name, surname, age);
-        long cardNumber = cardCreated.getNumber();
+        long cardNumber = cardCreated.getCardNumber();
         createdUser.getCards().put(cardNumber, cardCreated);
 
         //Let s add this new User object to the main (and just one) array
@@ -38,12 +37,14 @@ public class UserController {
         return createUserResponse;
     }
 
-    public static void printMembers() {
-        System.out.println("List members : ");
-        System.out.println("There is " + users.size() + " members right now");
-        System.out.println(users);
+    public static HashMap<String, String> printMembers() {
+        //
+        HashMap<String, String> printMembersResponse = new HashMap<>();
+        printMembersResponse.put("response", "printMembersResponse");
+        printMembersResponse.put("listMembersSize", String.valueOf(users.size()));
+        printMembersResponse.put("listMembers", users.toString());
+        return printMembersResponse;
     }
-
 
     public static void createFakeUsers() {
         //let's create some cards
@@ -52,10 +53,10 @@ public class UserController {
         Card cardCreated3 = CardService.createCard();
         Card cardCreated4 = CardService.createCard();
         //let's extract the card number from card
-        long cardNumber1 = cardCreated1.getNumber();
-        long cardNumber2 = cardCreated1.getNumber();
-        long cardNumber3 = cardCreated1.getNumber();
-        long cardNumber4 = cardCreated1.getNumber();
+        long cardNumber1 = cardCreated1.getCardNumber();
+        long cardNumber2 = cardCreated1.getCardNumber();
+        long cardNumber3 = cardCreated1.getCardNumber();
+        long cardNumber4 = cardCreated1.getCardNumber();
         //just to work with them, no having a void arraylist
         User newUser1 = new User("Alex", "Pixel", 25);
         User newUser2 = new User("Thomas", "Edison", 35);

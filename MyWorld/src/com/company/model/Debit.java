@@ -7,8 +7,8 @@ public class Debit extends Card {
     public Debit() {
     }
 
-    public Debit(long number, double amount, String type, int points) {
-        super(number, amount, type);
+    public Debit(long number, double amount, String type, int pin, int points) {
+        super(number, amount, type, pin);
         this.points = points;
     }
 
@@ -27,8 +27,8 @@ public class Debit extends Card {
     @Override
     public String toString() {
         return "Debit{" +
-                "number=" + number +
-                ", amount=" + amount +
+                "number=" + cardNumber +
+                ", amount=" + balance +
                 ", type='" + type + '\'' +
                 ", pin=" + pin +
                 ", points=" + points +

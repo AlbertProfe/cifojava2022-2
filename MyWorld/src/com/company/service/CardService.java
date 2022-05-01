@@ -1,17 +1,18 @@
 package com.company.service;
 
 import com.company.model.Card;
+import com.company.utils.Utilities;
 
 public class CardService {
 
     public static Card createCard() {
 
-        //long cardNumber = Utils.CreateLongNumber(16);
-        long cardNumber = 1234123412341234L;
+        long cardNumber = Utilities.createCardNumber();
         double amount = 100.00;
-        String cardType = "Visa";
+        String cardType = Utilities.createTypeCard();
+        int pin = Utilities.createCardPin();
 
-        Card cardCreated = new Card(cardNumber, amount, cardType);
+        Card cardCreated = new Card(cardNumber, amount, cardType, pin);
         return cardCreated;
     }
 

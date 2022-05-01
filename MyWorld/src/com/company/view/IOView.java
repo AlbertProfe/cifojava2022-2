@@ -135,14 +135,18 @@ public class IOView {
         return createUserStatus;
     }
 
-    public static void listMembers() {
-
+    public static int listMembers() {
+        //
         HashMap<String, String> printMembersRequest = new HashMap<>();
         //fill data hashmap object
         printMembersRequest.put("operation", "printMembers");
         //send data to controller and get the response
-        FrontController.mainLoopController(printMembersRequest);
+        HashMap<String, String> printMembersResponse = FrontController.mainLoopController(printMembersRequest);
+        System.out.println("List members : ");
+        System.out.println("There is " + printMembersResponse.get("listMembersSize") + " members right now");
+        System.out.println(printMembersResponse.get("listMembers"));
 
+        return  Integer.parseInt(printMembersResponse.get("listMembersSize"));
 
     }
 
@@ -203,6 +207,11 @@ public class IOView {
 
         return depositStatus;
 
+    }
+
+    public static String buy(Scanner reader) {
+        //to-do
+        return null;
     }
 
 }

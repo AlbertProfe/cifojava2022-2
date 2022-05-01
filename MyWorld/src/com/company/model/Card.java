@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Card {
 
-    public long number;
-    public double amount;
+    public long cardNumber;
+    public double balance;
     public String type;
     public int pin;
     public HashMap<String, ArrayList<Order>> ordersByMonth = new HashMap<>();
@@ -14,27 +14,27 @@ public class Card {
     public Card() {
     }
 
-    public Card(long number, double amount, String type) {
-        this.number = number;
-        this.amount = amount;
+    public Card(long cardNumber, double balance, String type, int pin) {
+        this.cardNumber = cardNumber;
+        this.balance = balance;
         this.type = type;
-        this.pin = 1234;
+        this.pin = pin;
     }
 
-    public long getNumber() {
-        return number;
+    public long getCardNumber() {
+        return cardNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setCardNumber(int cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getType() {
@@ -59,8 +59,8 @@ public class Card {
     @Override
     public String toString() {
         return "Card{" +
-                "number=" + number +
-                ", amount=" + amount +
+                "cardNumber=" + cardNumber +
+                ", balance=" + balance +
                 ", type='" + type + '\'' +
                 ", pin=" + pin +
                 '}';
@@ -68,10 +68,10 @@ public class Card {
 
     //update -getter/setter- amount of object card with qty from parameter
     public void removeAmount(Double amount) {
-        this.setAmount(this.getAmount() - amount);
+        this.setBalance(this.getBalance() - amount);
     }
 
     public void addAmount(Double amount) {
-        this.setAmount(this.getAmount() + amount);
+        this.setBalance(this.getBalance() + amount);
     }
 }
