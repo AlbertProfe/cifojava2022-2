@@ -1,14 +1,10 @@
 package com.company.frontcontroller;
 
+import com.company.controller.CardController;
 import com.company.controller.UserController;
-import com.company.model.User;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FrontController {
-    //just an arraylist to store users
-    static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> mainLoopController(HashMap<String, String> request) {
         //
@@ -16,10 +12,11 @@ public class FrontController {
         response.put("status", "error");
         //
         if (request.get("operation").equals("createUser")) response = UserController.createUser(request);
-        else if (request.get("operation").equals("printMembers")) UserController.printMembers();
-        // else if (request.get("operation").equals("changePin")) response = UserController.changePin(request);
-        //else if (request.get("operation").equals("transfer")) response = UserController.transfer(request);
-        //else if (request.get("operation").equals("deposit")) response = UserController.deposit(request);
+        else if (request.get("operation").equals("printMembers")) response = UserController.printMembers();
+        else if (request.get("operation").equals("changePin")) response = CardController.changePin(request);
+        else if (request.get("operation").equals("transfer")) response = CardController.transfer(request);
+        else if (request.get("operation").equals("deposit")) response = CardController.deposit(request);
+        else if (request.get("operation").equals("buy")) response = CardController.buy(request);
         //else if (request.get("operation").equals( "loan"))  UserController.loan(request);
 
         return response;

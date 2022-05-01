@@ -1,8 +1,10 @@
 package com.company.controller;
 
+import java.util.HashMap;
+
 public class CardController {
 
-//    public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
+    public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
 //        //get data from hashmap
 //        long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
 //        int newPin = Integer.parseInt(dataToChangePin.get("newPin"));
@@ -25,9 +27,10 @@ public class CardController {
 //        }
 //
 //        return changePinResponse;
-//    }
-//
-//    public static HashMap<String, String> transfer(HashMap<String, String> dataToTransfer) {
+        return null;
+    }
+
+    public static HashMap<String, String> transfer(HashMap<String, String> dataToTransfer) {
 //        //
 //        long originCardNumber = Long.valueOf((dataToTransfer.get("originCardNumber")));
 //        long destinationCardNumber = Long.valueOf((dataToTransfer.get("destinationCardNumber")));
@@ -69,9 +72,10 @@ public class CardController {
 //        }
 //
 //        return transferResponse;
-//    }
-//
-//    public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
+        return null;
+    }
+
+    public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
 //        //
 //        long originCardNumber = Long.valueOf((dataToDeposit.get("originCardNumber")));
 //        double amount = Double.parseDouble(dataToDeposit.get("amount"));
@@ -95,7 +99,10 @@ public class CardController {
 //        }
 //
 //        return depositResponse;
-//    }
+        return null;
+    }
 
-
+    public static HashMap<String, String> buy(HashMap<String, String> dataToBuy) {
+        return null;
+    }
 }
