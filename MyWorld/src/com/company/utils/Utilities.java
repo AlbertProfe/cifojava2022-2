@@ -55,7 +55,7 @@ public class Utilities {
     public static String createTypeCard() {
         //
         Random rand = new Random();
-        List cardsTypeNames = Arrays.asList("Visa", "American Express", "MasterCard");
+        List cardsTypeNames = Arrays.asList("Visa", "American Express", "MasterCard", "PayPal", "Stripe");
         // Generate random integers in range 0 to top, if top=10 random 0 to 9
         int intRandom = rand.nextInt(cardsTypeNames.size()-1);
         String cardType = (String) cardsTypeNames.get(intRandom);

@@ -47,7 +47,7 @@ public class IOView {
                 break;
             } else if (command.equals("user")) {
                 //call the loop user
-                //releaseLoopUser(reader);
+                releaseLoopUser(reader);
             } else if (command.equals("admin")) {
                 //call the loop admin
                 releaseLoopAdmin(reader);
@@ -84,7 +84,7 @@ public class IOView {
         //release User loop starting
         while (true) {
             //print user menu
-            Menu.adminMenu();
+            Menu.userMenu();
             String command = Utilities.ask(reader, "Option?");
 
             if (command.equals("quit")) {
@@ -100,7 +100,7 @@ public class IOView {
                 deposit(reader);
             } else if (command.equals("buy")) {
                 //call-operation to create new user
-                //buy(reader);
+                buy(reader);
             } else if (command.equals("changePassword")) {
                 //call-operation to create new user
                 //changePassword(reader);
@@ -210,8 +210,26 @@ public class IOView {
     }
 
     public static String buy(Scanner reader) {
+        //cards
+        String cardsToShow = showCardsByUser(reader);
+        System.out.println("cards : " + cardsToShow);
+        //user will select ONE card to buy
+        //with a particular card this user will buy something
         //to-do
         return null;
+    }
+
+    public static String showCardsByUser(Scanner reader) {
+        //get all cards from this user
+        HashMap<String, String> getCardsByUserRequest = new HashMap<>();
+        getCardsByUserRequest.put("operation", "getCardsByUser");
+        //to-do console loop to ask for user
+        //String user = Utilities.ask(reader, "User email?");
+        getCardsByUserRequest.put("userEmail", "APixel@helsinki.uni");
+
+        HashMap<String, String> getCardsByUserResponse = FrontController.mainLoopController(getCardsByUserRequest);
+
+        return getCardsByUserResponse.get("cardsByUser");
     }
 
 }
