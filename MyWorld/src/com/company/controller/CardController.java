@@ -1,5 +1,10 @@
 package com.company.controller;
 
+import com.company.model.Order;
+import com.company.model.User;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class CardController {
@@ -103,6 +108,50 @@ public class CardController {
     }
 
     public static HashMap<String, String> buy(HashMap<String, String> dataToBuy) {
-        return null;
+        //long cardNumber = Long.parseLong((dataToCreateUser.get("cardNumber")));
+        //double amount = Double.parseDouble(dataToCreateUser.get("amount"));
+        //String cardType = dataToCreateUser.get("cardType");
+
+        //unpack dataToBuy
+        String userEmail = dataToBuy.get("userEmail");
+        long cardNumber = Long.parseLong(dataToBuy.get("cardNumber"));
+
+        String productDescription = dataToBuy.get("productDescription");
+        double amountProduct = Double.parseDouble(dataToBuy.get("amountProduct"));
+
+        ArrayList<User> users = UserController.getFakeUsers();
+
+        Order orderCreated = new Order(productDescription, amountProduct);
+        Date dateOrder = orderCreated.getDate();
+        //get user from users
+        //check if there is balance
+        //let s think to test that there is balance
+        //to-do check balance
+
+        //String dataKey = createDataKey(dateOrder);
+        String dataKey = "042022";
+
+        User userPlaceHolder = users.get(0);
+
+        boolean isKeyMonth = userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
+
+
+        if (!isKeyMonth) {
+            //we need to create a new entry on hashmap
+            ArrayList<Order> ordersList = new ArrayList<>();
+            ordersList.add(orderCreated);
+            userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().put(dataKey, ordersList);
+
+        } else {
+            //entry exists we do a ADD
+            userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().get(dataKey).add(orderCreated);
+        }
+        userPlaceHolder.getCards().get(cardNumber).removeAmount(amountProduct);
+
+        HashMap<String, String> boyResponse = new HashMap<>();
+        boyResponse.put("response", "buyResponse");
+        boyResponse.put("status", "order done");
+
+        return boyResponse;
     }
 }

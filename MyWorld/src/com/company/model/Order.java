@@ -16,6 +16,12 @@ public class Order {
         this.date = date;
     }
 
+    public Order(String concept, Double amount) {
+        this.concept = concept;
+        this.amount = amount;
+        this.date = new Date();
+    }
+
     public String getConcept() {
         return concept;
     }

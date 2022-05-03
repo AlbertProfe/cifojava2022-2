@@ -57,7 +57,7 @@ public class CardService {
 //        return isCard;
 //    }
 //
-//    public static User isCardNumberUser(int cardNumber, ArrayList<User> users) {
+//    public static User isCardNumberUser(long cardNumber, ArrayList<User> users) {
 //        User isUser = null;
 //        for (User user : users) {
 //            if (user.getCard().getNumber() == cardNumber) isUser = user;

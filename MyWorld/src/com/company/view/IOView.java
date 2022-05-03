@@ -47,15 +47,15 @@ public class IOView {
                 break;
             } else if (command.equals("user")) {
                 //call the loop user
-                releaseLoopUser(reader);
+                loopUser(reader);
             } else if (command.equals("admin")) {
                 //call the loop admin
-                releaseLoopAdmin(reader);
+                loopAdmin(reader);
             } else System.out.println("Unknown command");
         }
     }
 
-    public static void releaseLoopAdmin(Scanner reader) {
+    public static void loopAdmin(Scanner reader) {
         //release Admin loop starting
         while (true) {
             //print main menu
@@ -80,7 +80,7 @@ public class IOView {
         }
     }
 
-    public static void releaseLoopUser(Scanner reader) {
+    public static void loopUser(Scanner reader) {
         //release User loop starting
         while (true) {
             //print user menu
@@ -211,12 +211,47 @@ public class IOView {
 
     public static String buy(Scanner reader) {
         //cards
-        String cardsToShow = showCardsByUser(reader);
-        System.out.println("cards : " + cardsToShow);
-        //user will select ONE card to buy
-        //with a particular card this user will buy something
-        //to-do
-        return null;
+        //call to loop ShowAndPickCard
+        String cardToBuy = loopShowAndPickCard(reader);
+        String buyResult = "error buy";
+        if (!cardToBuy.equals("quit")) {
+            //with a particular card this user will buy something
+            String productDescription = Utilities.ask(reader, "Product description");
+            String amountProduct = Utilities.ask(reader, "Amount Product");
+
+            HashMap<String, String> buyRequest = new HashMap<>();
+            //fill data hashmap object
+            buyRequest.put("operation", "buy");
+
+            buyRequest.put("userEmail", "APixel@helsinki.uni");
+            buyRequest.put("cardNumber", cardToBuy);
+
+            buyRequest.put("productDescription", productDescription);
+            buyRequest.put("amountProduct", amountProduct);
+
+            HashMap<String, String> buyResponse = FrontController.mainLoopController(buyRequest);
+            String buyStatus = buyResponse.get("status");
+            System.out.println("status buyResponse: " + buyStatus + "\n" + buyResponse.get("message"));
+        }
+
+        return buyResult;
+    }
+
+    public static String loopShowAndPickCard(Scanner reader) {
+        //user will select ONE card to buy or quit
+        String cardSelected = "quit";
+        while (true) {
+            String cardsToShow = showCardsByUser(reader);
+            System.out.println("cards : " + cardsToShow);
+            String command = Utilities.ask(reader, "Card?");
+            if (command.equals("quit")) {
+                break;
+            } else if (cardsToShow.contains(command)) {
+                cardSelected = command;
+                break;
+            }
+        }
+        return cardSelected;
     }
 
     public static String showCardsByUser(Scanner reader) {
@@ -224,12 +259,20 @@ public class IOView {
         HashMap<String, String> getCardsByUserRequest = new HashMap<>();
         getCardsByUserRequest.put("operation", "getCardsByUser");
         //to-do console loop to ask for user
-        //String user = Utilities.ask(reader, "User email?");
-        getCardsByUserRequest.put("userEmail", "APixel@helsinki.uni");
+        String userEmail = Utilities.ask(reader, "User email?");
+        getCardsByUserRequest.put("userEmail", userEmail);
+        //getCardsByUserRequest.put("userEmail", "APixel@helsinki.uni");
 
+        //send request hashMap
         HashMap<String, String> getCardsByUserResponse = FrontController.mainLoopController(getCardsByUserRequest);
+        String showCardsByUserResponse = "";
+        if (getCardsByUserResponse.get("status").equals("cards found")) {
+            showCardsByUserResponse = getCardsByUserResponse.get("cardsByUser");
+        }
 
-        return getCardsByUserResponse.get("cardsByUser");
+        return showCardsByUserResponse;
     }
 
 }
+
+

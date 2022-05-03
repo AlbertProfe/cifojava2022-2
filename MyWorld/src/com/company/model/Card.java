@@ -56,6 +56,14 @@ public class Card {
     public void pay() {
     }
 
+    public HashMap<String, ArrayList<Order>> getOrdersByMonth() {
+        return ordersByMonth;
+    }
+
+    public void setOrdersByMonth(HashMap<String, ArrayList<Order>> ordersByMonth) {
+        this.ordersByMonth = ordersByMonth;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
