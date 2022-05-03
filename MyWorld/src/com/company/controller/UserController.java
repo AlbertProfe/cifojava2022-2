@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class UserController {
     //just an arraylist to store users
+    //
     static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {

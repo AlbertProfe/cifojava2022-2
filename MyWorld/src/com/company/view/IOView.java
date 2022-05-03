@@ -228,7 +228,7 @@ public class IOView {
 
             buyRequest.put("productDescription", productDescription);
             buyRequest.put("amountProduct", amountProduct);
-
+            //
             HashMap<String, String> buyResponse = FrontController.mainLoopController(buyRequest);
             String buyStatus = buyResponse.get("status");
             System.out.println("status buyResponse: " + buyStatus + "\n" + buyResponse.get("message"));

@@ -127,6 +127,7 @@ public class CardController {
         String dataKey = CardService.createDateKey(dateOrder);
 
         //check if there is balance
+        //
         boolean isEnoughBalance = CardService.isEnoughBalance(user, cardNumber, amountProduct);
 
         HashMap<String, String> buyResponse = new HashMap<>();
