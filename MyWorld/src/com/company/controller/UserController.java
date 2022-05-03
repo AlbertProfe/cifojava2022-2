@@ -75,7 +75,7 @@ public class UserController {
         users.add(newUser4);
     }
 
-    public static ArrayList<User> getFakeUsers() {
+    public static ArrayList<User> getUsers() {
         return users;
     }
 

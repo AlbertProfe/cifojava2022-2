@@ -1,7 +1,11 @@
 package com.company.service;
 
 import com.company.model.Card;
+import com.company.model.User;
 import com.company.utils.Utilities;
+
+import java.time.LocalDate;
+
 
 public class CardService {
 
@@ -18,6 +22,21 @@ public class CardService {
 
     public static Card createCardByUser() {
         return null;
+    }
+
+    public static String createDateKey(LocalDate dateOrder) {
+        //let s concatenate month and year
+        String month = String.valueOf(dateOrder.getMonthValue());
+        String year = String.valueOf(dateOrder.getYear());
+        String dateKey = month + year;
+
+        return dateKey;
+    }
+
+    public static boolean isEnoughBalance(User user, long card, Double amount) {
+        //check if is enough money in origin card
+        boolean isMoney = user.getCards().get(card).getBalance() >= amount;
+        return isMoney;
     }
 
 
@@ -69,11 +88,7 @@ public class CardService {
 //        users.get(position).getCard().setPin(newPin);
 //    }
 //
-//    public static boolean isEnoughAmount(ArrayList<User> users, int position, Double amount) {
-//        //check if is enough money in origin card
-//        boolean isMoney = users.get(position).getCard().getAmount() >= amount;
-//        return isMoney;
-//    }
+
 //
 //    public static void makeTransfer(int originPosition, int destinationPosition, Double amount, ArrayList<User> users) {
 //        //rest this qty amount from origin

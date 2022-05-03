@@ -1,16 +1,17 @@
 package com.company.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Order {
     private String concept;
     private Double amount;
-    private Date date;
+    private LocalDate date;
 
     public Order() {
     }
 
-    public Order(String concept, Double amount, Date date) {
+    public Order(String concept, Double amount, LocalDate date) {
         this.concept = concept;
         this.amount = amount;
         this.date = date;
@@ -19,7 +20,12 @@ public class Order {
     public Order(String concept, Double amount) {
         this.concept = concept;
         this.amount = amount;
-        this.date = new Date();
+        this.date = createLocalDate();
+    }
+
+    private LocalDate createLocalDate() {
+        LocalDate date = LocalDate.now();
+        return date;
     }
 
     public String getConcept() {
@@ -38,11 +44,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

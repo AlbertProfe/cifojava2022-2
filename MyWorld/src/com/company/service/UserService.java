@@ -12,7 +12,7 @@ public class UserService {
 
         User userFound = null;
 
-        ArrayList<User> users = UserController.getFakeUsers();
+        ArrayList<User> users = UserController.getUsers();
         for (User userByEmail : users) {
             if (userByEmail.getEmail().equals(userEmail)) {
                 userFound = userByEmail;
