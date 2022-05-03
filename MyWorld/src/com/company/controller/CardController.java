@@ -2,9 +2,11 @@ package com.company.controller;
 
 import com.company.model.Order;
 import com.company.model.User;
+import com.company.service.CardService;
+import com.company.service.UserService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class CardController {
@@ -108,50 +110,51 @@ public class CardController {
     }
 
     public static HashMap<String, String> buy(HashMap<String, String> dataToBuy) {
-        //long cardNumber = Long.parseLong((dataToCreateUser.get("cardNumber")));
-        //double amount = Double.parseDouble(dataToCreateUser.get("amount"));
-        //String cardType = dataToCreateUser.get("cardType");
-
-        //unpack dataToBuy
+        //unpack dataToBuy: user and card
         String userEmail = dataToBuy.get("userEmail");
         long cardNumber = Long.parseLong(dataToBuy.get("cardNumber"));
-
+        //unpack dataToBuy: data to create order
         String productDescription = dataToBuy.get("productDescription");
         double amountProduct = Double.parseDouble(dataToBuy.get("amountProduct"));
+        //get user by email
+        User user = UserService.getUserByEmail(userEmail);
+        //get users list
+        ArrayList<User> users = UserController.getUsers();
 
-        ArrayList<User> users = UserController.getFakeUsers();
-
+        //create order object
         Order orderCreated = new Order(productDescription, amountProduct);
-        Date dateOrder = orderCreated.getDate();
-        //get user from users
+        LocalDate dateOrder = orderCreated.getDate();
+        String dataKey = CardService.createDateKey(dateOrder);
+
         //check if there is balance
-        //let s think to test that there is balance
-        //to-do check balance
+        boolean isEnoughBalance = CardService.isEnoughBalance(user, cardNumber, amountProduct);
 
-        //String dataKey = createDataKey(dateOrder);
-        String dataKey = "042022";
-
-        User userPlaceHolder = users.get(0);
-
-        boolean isKeyMonth = userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
+        HashMap<String, String> buyResponse = new HashMap<>();
+        buyResponse.put("response", "buyResponse");
 
 
-        if (!isKeyMonth) {
-            //we need to create a new entry on hashmap
-            ArrayList<Order> ordersList = new ArrayList<>();
-            ordersList.add(orderCreated);
-            userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().put(dataKey, ordersList);
-
+        if (!isEnoughBalance) {
+            buyResponse.put("status", "order not done");
+            buyResponse.put("message", "not enough money");
         } else {
-            //entry exists we do a ADD
-            userPlaceHolder.getCards().get(cardNumber).getOrdersByMonth().get(dataKey).add(orderCreated);
+            boolean isKeyMonth = user.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
+            if (!isKeyMonth) {
+                //we need to create a new entry on hashmap
+                ArrayList<Order> ordersList = new ArrayList<>();
+                ordersList.add(orderCreated);
+                user.getCards().get(cardNumber).getOrdersByMonth().put(dataKey, ordersList);
+            } else {
+                //entry exists we do a ADD
+                user.getCards().get(cardNumber).getOrdersByMonth().get(dataKey).add(orderCreated);
+            }
+            //operation pay the buy
+            user.getCards().get(cardNumber).removeAmount(amountProduct);
+            double balanceUpdated = user.getCards().get(cardNumber).getBalance();
+            buyResponse.put("status", "buy done");
+            buyResponse.put("message", amountProduct + "Euros payed on card " + cardNumber + ". Balance updated: " + balanceUpdated);
         }
-        userPlaceHolder.getCards().get(cardNumber).removeAmount(amountProduct);
 
-        HashMap<String, String> boyResponse = new HashMap<>();
-        boyResponse.put("response", "buyResponse");
-        boyResponse.put("status", "order done");
 
-        return boyResponse;
+        return buyResponse;
     }
 }

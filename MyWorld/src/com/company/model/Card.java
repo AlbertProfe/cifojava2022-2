@@ -71,6 +71,7 @@ public class Card {
                 ", balance=" + balance +
                 ", type='" + type + '\'' +
                 ", pin=" + pin +
+                ", \n\t ordersByMonth=" + ordersByMonth +
                 '}';
     }
 
