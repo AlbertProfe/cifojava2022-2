@@ -21,4 +21,20 @@ public class UserService {
 
         return userFound;
     }
+
+    public static User getUserByCard(long cardNumber) {
+
+        User userFound = null;
+
+        ArrayList<User> users = UserController.getUsers();
+        for (User userByCardNumber : users) {
+            if (userByCardNumber.getCards().containsKey(cardNumber)) {
+                userFound = userByCardNumber;
+            }
+        }
+
+        return userFound;
+
+    }
+
 }

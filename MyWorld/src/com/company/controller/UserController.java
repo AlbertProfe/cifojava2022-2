@@ -48,6 +48,32 @@ public class UserController {
         return printMembersResponse;
     }
 
+    public static HashMap<String, String> getCardsByUser(HashMap<String, String> dataToGetCardsByUser) {
+        //let s unpack dataToGetCardsByUser to extract data
+        String userEmail = dataToGetCardsByUser.get("userEmail");
+        //let s fetch user form users by email account
+        User userFound = UserService.getUserByEmail(userEmail);
+        //hashMap response with cards
+        HashMap<String, String> getCardsByUserResponse = new HashMap<>();
+        getCardsByUserResponse.put("status", "cards not found");
+
+        //if user exists let s get its cards from hashmap
+        String cardsByUser = "";
+        int cardsQty = 0;
+        if (userFound != null) {
+            cardsByUser = String.valueOf(userFound.getCards().keySet());
+            cardsQty = userFound.getCards().size();
+            getCardsByUserResponse.put("status", "cards found");
+        } else {
+            cardsByUser = "user not found";
+        }
+        getCardsByUserResponse.put("cardsByUser", cardsByUser);
+        getCardsByUserResponse.put("cardsQty", String.valueOf(cardsQty));
+        getCardsByUserResponse.put("response", "getCardsByUserResponse");
+
+        return getCardsByUserResponse;
+    }
+
     public static void createFakeUsers() {
         //let's create some cards
         Card cardCreated1 = CardService.createCard();
@@ -78,31 +104,5 @@ public class UserController {
 
     public static ArrayList<User> getUsers() {
         return users;
-    }
-
-    public static HashMap<String, String> getCardsByUser(HashMap<String, String> dataToGetCardsByUser) {
-        //let s unpack dataToGetCardsByUser to extract data
-        String userEmail = dataToGetCardsByUser.get("userEmail");
-        //let s fetch user form users by email account
-        User userFound = UserService.getUserByEmail(userEmail);
-        //hashMap response with cards
-        HashMap<String, String> getCardsByUserResponse = new HashMap<>();
-        getCardsByUserResponse.put("status", "cards not found");
-
-        //if user exists let s get its cards from hashmap
-        String cardsByUser = "";
-        int cardsQty = 0;
-        if (userFound != null) {
-            cardsByUser = String.valueOf(userFound.getCards().keySet());
-            cardsQty = userFound.getCards().size();
-            getCardsByUserResponse.put("status", "cards found");
-        } else {
-            cardsByUser = "user not found";
-        }
-        getCardsByUserResponse.put("cardsByUser", cardsByUser);
-        getCardsByUserResponse.put("cardsQty", String.valueOf(cardsQty));
-        getCardsByUserResponse.put("response", "getCardsByUserResponse");
-
-        return getCardsByUserResponse;
     }
 }
