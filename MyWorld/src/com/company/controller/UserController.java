@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.model.Card;
 import com.company.model.User;
+import com.company.service.CardService;
 import com.company.service.UserService;
 
 import java.util.ArrayList;
@@ -9,143 +10,114 @@ import java.util.HashMap;
 
 public class UserController {
     //just an arraylist to store users
+    //
     static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
-
+        //unpack dataToCreateUser hashmap to get data
         String name = dataToCreateUser.get("name");
         String surname = dataToCreateUser.get("surname");
         int age = Integer.parseInt(dataToCreateUser.get("age"));
-        long cardNumber = Long.parseLong((dataToCreateUser.get("cardNumber")));
-        double amount = Double.parseDouble(dataToCreateUser.get("amount"));
-        String cardType = dataToCreateUser.get("cardType");
 
+        //call to create a RANDOM card and return an object CARD
+        Card cardCreated = CardService.createCard();
         //Let s introduce data to create User
-        User createdUser = new User(name, surname, age, new Card(cardNumber, amount, cardType));
+        User createdUser = new User(name, surname, age);
+        long cardNumber = cardCreated.getCardNumber();
+        //we PUT a card object to cards
+        createdUser.getCards().put(cardNumber, cardCreated);
 
         //Let s add this new User object to the main (and just one) array
         boolean statusOperation = users.add(createdUser);
-
+        //let s create a response HashMap
         HashMap<String, String> createUserResponse = new HashMap<>();
         createUserResponse.put("response", "createUserResponse");
-
+        //if user has been created or not
         if (statusOperation) createUserResponse.put("status", "created");
         else createUserResponse.put("status", "not created");
 
         return createUserResponse;
     }
 
-    public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
-        //get data from hashmap
-        long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
-        int newPin = Integer.parseInt(dataToChangePin.get("newPin"));
-
-        //and get the index from the array, if it does not exist, get -1
-        int position = UserService.isCardNumber(cardNumber, users);
-        HashMap<String, String> changePinResponse = new HashMap<>();
-        changePinResponse.put("response", "changePinResponse");
-        int oldPin = users.get(position).getCard().getPin();
-
-        //if card number exists make the change Pin operation
-        if (position > -1) {
-            UserService.updatePin(newPin, users, position);
-            changePinResponse.put("status", "pinUpdated");
-            changePinResponse.put("message", "Pin changed success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
-            //if card number does not exist monitor this to user
-        } else {
-            changePinResponse.put("status", "pinNotUpdated");
-            changePinResponse.put("message", "This credit card number ( #: " + cardNumber + " ) does not exist");
-        }
-
-        return changePinResponse;
-    }
-
-    public static HashMap<String, String> transfer(HashMap<String, String> dataToTransfer) {
+    public static HashMap<String, String> printMembers() {
         //
-        long originCardNumber = Long.valueOf((dataToTransfer.get("originCardNumber")));
-        long destinationCardNumber = Long.valueOf((dataToTransfer.get("destinationCardNumber")));
-        double amount = Double.parseDouble(dataToTransfer.get("amount"));
+        HashMap<String, String> printMembersResponse = new HashMap<>();
+        printMembersResponse.put("response", "printMembersResponse");
+        printMembersResponse.put("listMembersSize", String.valueOf(users.size()));
+        printMembersResponse.put("listMembers", users.toString());
 
-        int originPosition = UserService.isCardNumber(originCardNumber, users);
-        boolean isOriginCardNumber = originPosition > -1;
-
-        int destinationPosition = UserService.isCardNumber(destinationCardNumber, users);
-        boolean isDestinationCardNumber = destinationPosition > -1;
-
-        boolean isMoney = false;
-        if (isOriginCardNumber) {
-            isMoney = UserService.isEnoughAmount(users, originPosition, amount);
-        }
-
-        HashMap<String, String> transferResponse = new HashMap<>();
-        transferResponse.put("response", "transferResponse");
-        transferResponse.put("status", "transfer NOT done");
-
-        if (!isOriginCardNumber) {
-            transferResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
-        } else if (!isDestinationCardNumber) {
-            transferResponse.put("message", "This credit card number (destination) ( #: " + destinationCardNumber + " ) does not exist");
-        } else if (!isMoney) {
-            transferResponse.put("message", "Check if credit card has not got enough money to make a transfer ...");
-        } else {
-            //now it is possible to make a transfer, call makeTransfer
-            double originBalance = users.get(originPosition).getCard().getAmount();
-            double depositBalance = users.get(destinationPosition).getCard().getAmount();
-            UserService.makeTransfer(originPosition, destinationPosition, amount, users);
-            double originBalanceAfterDeposit = users.get(originPosition).getCard().getAmount();
-            double destinationBalanceAfterDeposit = users.get(destinationPosition).getCard().getAmount();
-
-            transferResponse.put("status", "transfer done");
-            transferResponse.put("message", "From " + originCardNumber + " to " + destinationCardNumber + " " + amount
-                    + "\nBalance Origin account: " + originBalance + " to " + originBalanceAfterDeposit
-                    + "\nBalance Destination account: " + depositBalance + " to " + destinationBalanceAfterDeposit);
-        }
-
-        return transferResponse;
+        return printMembersResponse;
     }
 
-    public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
+    public static HashMap<String, String> getCardsByUser(HashMap<String, String> dataToGetCardsByUser) {
+        //let s unpack dataToGetCardsByUser to extract data
+        String userEmail = dataToGetCardsByUser.get("userEmail");
+        //let s fetch user form users by email account
+        User userFound = UserService.getUserByEmail(userEmail);
+        //hashMap response with cards
+        HashMap<String, String> getCardsByUserResponse = new HashMap<>();
+        getCardsByUserResponse.put("status", "cards not found");
+
+        //if user exists let s get its cards from hashmap
+        String cardsByUser = "";
+        int cardsQty = 0;
+        if (userFound != null) {
+            cardsByUser = String.valueOf(userFound.getCards().keySet());
+            cardsQty = userFound.getCards().size();
+            getCardsByUserResponse.put("status", "cards found");
+        } else {
+            cardsByUser = "user not found";
+        }
+        getCardsByUserResponse.put("cardsByUser", cardsByUser);
+        getCardsByUserResponse.put("cardsQty", String.valueOf(cardsQty));
+        getCardsByUserResponse.put("response", "getCardsByUserResponse");
+
+        return getCardsByUserResponse;
+    }
+
+    public static HashMap<String, String> getUserEmails() {
         //
-        long originCardNumber = Long.valueOf((dataToDeposit.get("originCardNumber")));
-        double amount = Double.parseDouble(dataToDeposit.get("amount"));
+        HashMap<String, String> userEmailsResponse = new HashMap<>();
+        userEmailsResponse.put("response", "userEmailsResponse");
 
-        int originPosition = UserService.isCardNumber(originCardNumber, users);
-        boolean isOriginCardNumber = originPosition > -1;
-
-        HashMap<String, String> depositResponse = new HashMap<>();
-        depositResponse.put("response", "depositResponse");
-        depositResponse.put("status", "deposit NOT done");
-
-        if (isOriginCardNumber) {
-            double balance = users.get(originPosition).getCard().getAmount();
-            UserService.makeDeposit(originPosition, amount, users);
-            double balanceAfterDeposit = users.get(originPosition).getCard().getAmount();
-
-            depositResponse.put("message", "Deposit " + originCardNumber + " of " + amount + ". Balance account: " + balance + " to " + balanceAfterDeposit);
-            depositResponse.put("status", "transfer done");
-        } else {
-            depositResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
+        String userEmails = "";
+        for (User user : users) {
+            userEmails = userEmails + user.getEmail() + ",\n";
         }
+        userEmailsResponse.put("userEmails", userEmails);
 
-        return depositResponse;
-    }
-
-    public static void loan() {
+        return userEmailsResponse;
     }
 
     public static void createFakeUsers() {
+        //let's create some cards
+        Card cardCreated1 = CardService.createCard();
+        Card cardCreated2 = CardService.createCard();
+        Card cardCreated3 = CardService.createCard();
+        Card cardCreated4 = CardService.createCard();
+        //let's extract the card number from card
+        long cardNumber1 = cardCreated1.getCardNumber();
+        long cardNumber2 = cardCreated2.getCardNumber();
+        long cardNumber3 = cardCreated3.getCardNumber();
+        long cardNumber4 = cardCreated4.getCardNumber();
         //just to work with them, no having a void arraylist
-        User newUser1 = new User("Alex", "Pixel", 25, new Card(1234123412341234L, 500.00, "Visa"));
-        User newUser2 = new User("Thomas", "Edison", 35, new Card(4321432143214321L, 1500.00, "Master Card"));
-        User newUser3 = new User("Susan", "Lane", 46, new Card(1111222233334444L, 2500.00, "American Express"));
-        User newUser4 = new User("Marta", "Gross", 86, new Card(4444333322221111L, 1900.00, "American Express"));
+        User newUser1 = new User("Alex", "Pixel", 25);
+        User newUser2 = new User("Thomas", "Edison", 35);
+        User newUser3 = new User("Susan", "Lane", 46);
+        User newUser4 = new User("Marta", "Gross", 86);
+        //let's fill the hashmap cards with the first card, key-value
+        newUser1.getCards().put(cardNumber1, cardCreated1);
+        newUser2.getCards().put(cardNumber2, cardCreated2);
+        newUser3.getCards().put(cardNumber3, cardCreated3);
+        newUser4.getCards().put(cardNumber4, cardCreated4);
+        //add users to list
         users.add(newUser1);
         users.add(newUser2);
         users.add(newUser3);
         users.add(newUser4);
     }
 
-    public static ArrayList<User> getFakeUsers() {
+    public static ArrayList<User> getUsers() {
         return users;
     }
 }

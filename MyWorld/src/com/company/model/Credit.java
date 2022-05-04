@@ -7,8 +7,8 @@ public class Credit extends Card {
     public Credit() {
     }
 
-    public Credit(long number, double amount, String type, double limitLoan) {
-        super(number, amount, type);
+    public Credit(long number, double amount, String type, int pin, double limitLoan) {
+        super(number, amount, type, pin);
         this.limitLoan = limitLoan;
     }
 
@@ -30,8 +30,8 @@ public class Credit extends Card {
     @Override
     public String toString() {
         return "Credit{" +
-                "number=" + number +
-                ", amount=" + amount +
+                "number=" + cardNumber +
+                ", amount=" + balance +
                 ", type='" + type + '\'' +
                 ", pin=" + pin +
                 ", limitLoan=" + limitLoan +
