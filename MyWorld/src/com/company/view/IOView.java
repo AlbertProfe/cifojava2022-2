@@ -238,7 +238,8 @@ public class IOView {
         //that is: which card user will use
         List userAndCardToBuy = loopShowAndPickCard(reader);
         String buyResult = "error buy";
-        if (!userAndCardToBuy.get(1).equals("quit")) {
+        boolean exit = userAndCardToBuy.get(1).equals("quit");
+        if (!exit) {
             //with a particular card this user will buy something
             String productDescription = Utilities.ask(reader, "Product description");
             String amountProduct = Utilities.ask(reader, "Amount Product");
@@ -269,8 +270,8 @@ public class IOView {
         //userAndCardsToShowAndPick(1) >>> cards
         //userAndCardsToShowAndPick(1) >>> no card
         List userAndCardsToShowAndPick = showCardsByUser(reader);
-
-        if (userAndCardsToShowAndPick.get(1).equals("no card")) {
+        boolean isCards = userAndCardsToShowAndPick.get(1).equals("no card");
+        if (isCards) {
             System.out.println("card or user not found\n");
             userAndCardsToShowAndPick.set(1, "quit");
         } else {
