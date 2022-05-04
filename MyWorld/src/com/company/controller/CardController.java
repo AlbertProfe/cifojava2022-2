@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.model.Card;
 import com.company.model.Order;
 import com.company.model.User;
 import com.company.service.CardService;
@@ -129,8 +130,8 @@ public class CardController {
             buyResponse.put("status", "order not done");
             buyResponse.put("message", "not enough money");
         } else {
-            boolean isKeyMonth = user.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
-            if (!isKeyMonth) {
+            boolean isKeyMonthEntry = user.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
+            if (!isKeyMonthEntry) {
                 // we need to create a new entry on hashma
                 //with a new list where we ADD the new created order
                 // PUT operation: key (String: dataKey) and value (List: ordersList)
@@ -146,9 +147,27 @@ public class CardController {
             //updated balance
             double balanceUpdated = user.getCards().get(cardNumber).getBalance();
             buyResponse.put("status", "buy done");
-            buyResponse.put("message", amountProduct + "Euros payed on card " + cardNumber + ". Balance updated: " + balanceUpdated);
+            buyResponse.put("message", amountProduct + " Euros payed on card " + cardNumber + ". Balance updated: " + balanceUpdated);
         }
 
         return buyResponse;
+    }
+
+    public static HashMap<String, String> createCard(HashMap<String, String> userEmailToCreateCard) {
+        //unpack data: user email
+        String userEmail = userEmailToCreateCard.get("userEmail");
+        //get user by email
+        User user = UserService.getUserByEmail(userEmail);
+        //create a Card
+        Card cardCreated = CardService.createCard();
+        long cardNumber = cardCreated.getCardNumber();
+        user.getCards().put(cardNumber, cardCreated);
+
+        HashMap<String, String> createCardResponse = new HashMap<>();
+        createCardResponse.put("response", "createCardResponse");
+        createCardResponse.put("status", "card created");
+        createCardResponse.put("card data", cardCreated.toString());
+
+        return createCardResponse;
     }
 }

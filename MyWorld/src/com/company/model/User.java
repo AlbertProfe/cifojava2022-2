@@ -20,6 +20,7 @@ public class User {
     public HashMap<Long, Card> cards;
     public List<Long> cardNumbersList;
 
+
     public User() {
     }
 

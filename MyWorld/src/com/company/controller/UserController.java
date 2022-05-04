@@ -45,6 +45,7 @@ public class UserController {
         printMembersResponse.put("response", "printMembersResponse");
         printMembersResponse.put("listMembersSize", String.valueOf(users.size()));
         printMembersResponse.put("listMembers", users.toString());
+
         return printMembersResponse;
     }
 
@@ -72,6 +73,20 @@ public class UserController {
         getCardsByUserResponse.put("response", "getCardsByUserResponse");
 
         return getCardsByUserResponse;
+    }
+
+    public static HashMap<String, String> getUserEmails() {
+        //
+        HashMap<String, String> userEmailsResponse = new HashMap<>();
+        userEmailsResponse.put("response", "userEmailsResponse");
+
+        String userEmails = "";
+        for (User user : users) {
+            userEmails = userEmails + user.getEmail() + ",\n";
+        }
+        userEmailsResponse.put("userEmails", userEmails);
+
+        return userEmailsResponse;
     }
 
     public static void createFakeUsers() {

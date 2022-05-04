@@ -34,9 +34,9 @@ public class CardService {
         return dateKey;
     }
 
-    public static boolean isEnoughBalance(User user, long card, Double amount) {
+    public static boolean isEnoughBalance(User user, long cardNumber, Double amount) {
         //check if is enough money in origin card
-        boolean isMoney = user.getCards().get(card).getBalance() >= amount;
+        boolean isMoney = user.getCards().get(cardNumber).getBalance() >= amount;
         return isMoney;
     }
 
