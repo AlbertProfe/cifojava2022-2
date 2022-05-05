@@ -36,7 +36,8 @@ public class Menu {
         System.out.println("3-deposit");
         System.out.println("4-buy");
         System.out.println("5-changePassword");
-        System.out.println("6-quit");
+        System.out.println("6-printData");
+        System.out.println("7-quit");
 
     }
 }

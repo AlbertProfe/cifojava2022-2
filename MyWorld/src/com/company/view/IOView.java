@@ -108,6 +108,9 @@ public class IOView {
             } else if (command.equals("changePassword")) {
                 //call-operation to create new user
                 //changePassword(reader);
+            } else if (command.equals("printData")) {
+                //call-operation to create new user
+                printData(userEmailValdated);
             } else System.out.println("Unknown command");
         }
     }
@@ -201,6 +204,21 @@ public class IOView {
     }
 
     //*********************** methods user **********************************//
+
+    public static String printData(String userEmailValidated) {
+        //
+        HashMap<String, String> printDataRequest = new HashMap<>();
+        //fill data hashmap object
+        printDataRequest.put("operation", "printData");
+        printDataRequest.put("userEmail", userEmailValidated);
+        //send data to controller and get the response
+        HashMap<String, String> printDataResponse = FrontController.mainLoopController(printDataRequest);
+        System.out.println("Data user : ");
+        System.out.println(printDataResponse.get("message"));
+
+        return printDataResponse.get("status");
+
+    }
 
     public static String changePin(Scanner reader) {
         //ask for card number and check if this card number exists within users

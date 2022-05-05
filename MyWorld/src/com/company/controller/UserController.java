@@ -39,6 +39,27 @@ public class UserController {
         return createUserResponse;
     }
 
+    public static HashMap<String, String> printData(HashMap<String, String> dataToPrint) {
+        //let s unpack dataToPrint to extract data
+        String userEmail = dataToPrint.get("userEmail");
+        //let s fetch user form users by email account
+        User userFound = UserService.getUserByEmail(userEmail);
+        boolean isUser = userFound != null;
+
+        HashMap<String, String> printDataResponse = new HashMap<>();
+        printDataResponse.put("response", "printDataResponse");
+
+        if (isUser) {
+            printDataResponse.put("status", "user exists");
+            printDataResponse.put("message", userFound.toString());
+        } else {
+            printDataResponse.put("status", "user no found");
+            printDataResponse.put("message", "no data user available: user not found");
+        }
+
+        return printDataResponse;
+    }
+
     public static HashMap<String, String> printMembers() {
         //
         HashMap<String, String> printMembersResponse = new HashMap<>();

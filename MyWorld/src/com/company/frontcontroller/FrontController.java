@@ -17,6 +17,7 @@ public class FrontController {
         else if (request.get("operation").equals("printMembers")) response = UserController.printMembers();
         else if (request.get("operation").equals("getCardsByUser")) response = UserController.getCardsByUser(request);
         else if (request.get("operation").equals("getUserEmails")) response = UserController.getUserEmails();
+        else if (request.get("operation").equals("printData")) response = UserController.printData(request);
         else if (request.get("operation").equals("createCardRequest")) response = CardController.createCard(request);
         else if (request.get("operation").equals("validation")) response = LoginController.validateUser(request);
         else if (request.get("operation").equals("changePin")) response = CardController.changePin(request);
