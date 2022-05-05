@@ -20,7 +20,7 @@ public class Menu {
 
     public static void adminMenu() {
         //print mini-menu with 4 options + quit
-        //
+        //let s print
         System.out.println("admin menu");
         System.out.println("1-createAdmin");
         System.out.println("2-createUser");
