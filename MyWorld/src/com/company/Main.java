@@ -12,6 +12,7 @@ public class Main {
         IOView.devLoopView();
 
         //Exit program
+        //
         System.out.println("\nFinishing myWorld, bye, bye!");
     }
 
