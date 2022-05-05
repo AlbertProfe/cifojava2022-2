@@ -31,7 +31,17 @@ public class User {
         this.email = Utilities.createEmail(name, surname);
         this.password = Utilities.createPassword();
         this.cards = new HashMap<>();
-        this.cardNumbersList =  new ArrayList<Long>(cards.keySet());
+        this.cardNumbersList = new ArrayList<Long>(cards.keySet());
+    }
+
+    public User(String name, String surname, int age, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.cards = new HashMap<>();
+        this.cardNumbersList = new ArrayList<Long>(cards.keySet());
     }
 
 

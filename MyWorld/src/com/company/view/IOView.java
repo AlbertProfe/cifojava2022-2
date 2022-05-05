@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class IOView {
 
+    //*********************** loops *************************************//
+
     public static void devLoopView() {
         //just scanner object to manage io
         Scanner reader = new Scanner(System.in);
@@ -33,12 +35,12 @@ public class IOView {
                 //CardTest.cardTest();
             } else if (command.equals("release")) {
                 //Call the loop release
-                mainLoopView(reader);
+                validateUser(reader);
             } else System.out.println("Unknown command");
         }
     }
 
-    public static void mainLoopView(Scanner reader) {
+    public static void mainLoopView(Scanner reader, String userEmailValidated) {
         //release loop starting
         while (true) {
             //print main menu
@@ -49,15 +51,15 @@ public class IOView {
                 break;
             } else if (command.equals("user")) {
                 //call the loop user
-                loopUser(reader);
+                loopUser(reader, userEmailValidated);
             } else if (command.equals("admin")) {
                 //call the loop admin
-                loopAdmin(reader);
+                loopAdmin(reader, userEmailValidated);
             } else System.out.println("Unknown command");
         }
     }
 
-    public static void loopAdmin(Scanner reader) {
+    public static void loopAdmin(Scanner reader, String userEmailValidated) {
         //release Admin loop starting
         while (true) {
             //print main menu
@@ -82,7 +84,7 @@ public class IOView {
         }
     }
 
-    public static void loopUser(Scanner reader) {
+    public static void loopUser(Scanner reader, String userEmailValdated) {
         //release User loop starting
         while (true) {
             //print user menu
@@ -102,13 +104,39 @@ public class IOView {
                 deposit(reader);
             } else if (command.equals("buy")) {
                 //call-operation to create new user
-                buy(reader);
+                buy(reader, userEmailValdated);
             } else if (command.equals("changePassword")) {
                 //call-operation to create new user
                 //changePassword(reader);
             } else System.out.println("Unknown command");
         }
     }
+
+    //*********************** login ***************************************//
+
+    public static String validateUser(Scanner reader) {
+        //ask for login
+        System.out.println("Login ...");
+        String userEmail = Utilities.ask(reader, "User Email");
+        String userPassword = Utilities.ask(reader, "User Password?");
+        //create hashmap
+        HashMap<String, String> validationRequest = new HashMap<>();
+        validationRequest.put("operation", "validation");
+        validationRequest.put("userEmail", userEmail);
+        validationRequest.put("userPassword", userPassword);
+        //send request hashMap
+        HashMap<String, String> validationResponse = FrontController.mainLoopController(validationRequest);
+
+        String validationStatus = validationResponse.get("status");
+        System.out.println("status validation: " + validationStatus + "\n" + validationResponse.get("message"));
+
+        boolean isValidated = validationStatus.equals("validated");
+        if (isValidated) mainLoopView(reader, userEmail);
+
+        return validationStatus;
+    }
+
+    //*********************** methods admin *******************************//
 
     public static String createUser(Scanner reader) {
         //Let s introduce data to create User's card
@@ -168,9 +196,11 @@ public class IOView {
         System.out.println("There is " + printMembersResponse.get("listMembersSize") + " members right now");
         System.out.println(printMembersResponse.get("listMembers"));
 
-        return  Integer.parseInt(printMembersResponse.get("listMembersSize"));
+        return Integer.parseInt(printMembersResponse.get("listMembersSize"));
 
     }
+
+    //*********************** methods user **********************************//
 
     public static String changePin(Scanner reader) {
         //ask for card number and check if this card number exists within users
@@ -231,12 +261,12 @@ public class IOView {
 
     }
 
-    public static String buy(Scanner reader) {
+    public static String buy(Scanner reader, String userEmailValidated) {
         //cards
         //call to loop ShowAndPickCard
         //first at all we need to solve this preliminary problem
         //that is: which card user will use
-        List userAndCardToBuy = loopShowAndPickCard(reader);
+        List userAndCardToBuy = loopShowAndPickCard(reader, userEmailValidated);
         String buyResult = "error buy";
         boolean exit = userAndCardToBuy.get(1).equals("quit");
         if (!exit) {
@@ -262,14 +292,16 @@ public class IOView {
         return buyResult;
     }
 
-    public static List loopShowAndPickCard(Scanner reader) {
+    //************************** utils buy ********************************//
+
+    public static List loopShowAndPickCard(Scanner reader, String userEmailValidated) {
         //user will select ONE card to buy or quit
         //list with user and cards IF they exist
         //if not quit keyword is sent in position 1
         //userAndCardsToShowAndPick(0) >>> user
         //userAndCardsToShowAndPick(1) >>> cards
         //userAndCardsToShowAndPick(1) >>> no card
-        List userAndCardsToShowAndPick = showCardsByUser(reader);
+        List userAndCardsToShowAndPick = showCardsByUser(reader, userEmailValidated);
         boolean isCards = userAndCardsToShowAndPick.get(1).equals("no card");
         if (isCards) {
             System.out.println("card or user not found\n");
@@ -292,13 +324,13 @@ public class IOView {
         return userAndCardsToShowAndPick;
     }
 
-    public static List showCardsByUser(Scanner reader) {
+    public static List showCardsByUser(Scanner reader, String userEmailValidated) {
         //get all cards from this user
         HashMap<String, String> getCardsByUserRequest = new HashMap<>();
         getCardsByUserRequest.put("operation", "getCardsByUser");
         //to-do console loop to ask for user
-        String userEmail = Utilities.ask(reader, "User email?");
-        getCardsByUserRequest.put("userEmail", userEmail);
+        //String userEmail = Utilities.ask(reader, "User email?");
+        getCardsByUserRequest.put("userEmail", userEmailValidated);
         //getCardsByUserRequest.put("userEmail", "APixel@helsinki.uni");
 
         //send request hashMap
@@ -310,10 +342,11 @@ public class IOView {
             showCardsByUserResponse = "no card";
         }
 
-        List userAndCards = Arrays.asList(userEmail, showCardsByUserResponse);
+        List userAndCards = Arrays.asList(userEmailValidated, showCardsByUserResponse);
 
         return userAndCards;
     }
+
 
 }
 

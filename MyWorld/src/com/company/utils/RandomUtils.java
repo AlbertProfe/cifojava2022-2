@@ -1,8 +1,6 @@
 package com.company.utils;
 
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class RandomUtils {
@@ -28,7 +26,7 @@ public class RandomUtils {
         // String alphabetChars =
         // "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         // String alphabetChars2 = "!·$%&/()=?¿?=)()/*-+^*Ç¨_:;;:_+/";
-        String alphabetChars3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!·$%&/()=?¿?=)()/*-+^*Ç¨_:;;:_+/+/";
+        String alphabetChars3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!$%&/()=?¿?=)()/*-+^*_:;;:_+/+/";
         // Generate random char in range 0 to top, if top=10 random 0 to 9
         char charRandom = alphabetChars3.charAt(createIntRandom(alphabetChars3.length()));
 
