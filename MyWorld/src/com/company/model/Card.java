@@ -1,16 +1,19 @@
 package com.company.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Entity
 public class Card {
-
+    @Id
     public long cardNumber;
     public double balance;
     public String type;
     public int pin;
     public HashMap<String, ArrayList<Order>> ordersByMonth = new HashMap<>();
-
+    //create table card(cardNumber bigInt not null, balance float, type varchar(25), pin integer, ordersByMonth varchar(255),primary key (cardNumber ))teger, ordersByMonth varchar(255),primary key (id))
     public Card() {
     }
 
