@@ -11,8 +11,8 @@ public class Main {
         //we are starting the main loop
         IOView.devLoopView();
 
+
         //Exit program
-        //
         System.out.println("\nFinishing myWorld, bye, bye!");
     }
 
