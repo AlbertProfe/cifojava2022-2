@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.model.Card;
 import com.company.model.User;
+import com.company.repository.UserRepository;
 import com.company.service.CardService;
 import com.company.service.UserService;
 
@@ -129,6 +130,12 @@ public class UserController {
         User newUser3 = new User("Susan", "Lane", 46);
         User newUser4 = new User("Marta", "Gross", 86);
         User newUser5 = new User("Elon", "Musk", 56, "elon@musk.mars", "1234");
+
+        UserRepository.create(newUser1);
+        UserRepository.create(newUser2);
+        UserRepository.create(newUser3);
+        UserRepository.create(newUser4);
+        UserRepository.create(newUser5);
         //let's fill the hashmap cards with the first card, key-value
         newUser1.getCards().put(cardNumber1, cardCreated1);
         newUser2.getCards().put(cardNumber2, cardCreated2);

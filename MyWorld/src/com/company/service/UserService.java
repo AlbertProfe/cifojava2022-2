@@ -2,6 +2,8 @@ package com.company.service;
 
 import com.company.controller.UserController;
 import com.company.model.User;
+import com.company.repository.CardRepository;
+import com.company.repository.UserRepository;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,11 @@ public class UserService {
 
         return userFound;
 
+    }
+
+    public static void createUser (User userToCreate ){
+
+        UserRepository.create(userToCreate);
     }
 
 }
