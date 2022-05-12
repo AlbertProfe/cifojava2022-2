@@ -2,12 +2,17 @@ package com.company.model;
 
 import com.company.utils.Utilities;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Entity
+@Table(name="USER_TABLE")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long userId;
     public String name;
     public String surname;
     public int age;
@@ -17,7 +22,14 @@ public class User {
     //each Card has its orders by Month
     //that is, the orders will be in HashMap
     //key-String-Month and value-List-Order
+    @Transient
     public HashMap<Long, Card> cards;
+    @ElementCollection
+    @CollectionTable(
+            name="CARDS_BY_USER",
+            joinColumns=@JoinColumn(name="USER_ID")
+    )
+    @Column(name="CARD_NUMBER")
     public List<Long> cardNumbersList;
 
 
@@ -44,6 +56,13 @@ public class User {
         this.cardNumbersList = new ArrayList<Long>(cards.keySet());
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;
@@ -104,6 +123,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + userId + '\'' +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +

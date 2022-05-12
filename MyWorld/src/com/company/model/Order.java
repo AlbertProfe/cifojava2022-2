@@ -1,12 +1,20 @@
 package com.company.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-
+@Entity
+@Table(name="ORDER_TABLE")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long orderId;
     private String concept;
     private Double amount;
     private LocalDate date;
+
+    private String dateKeyCard;
+
 
     public Order() {
     }
@@ -26,6 +34,22 @@ public class Order {
     private LocalDate createLocalDate() {
         LocalDate date = LocalDate.now();
         return date;
+    }
+
+    public String getDateKeyCard() {
+        return dateKeyCard;
+    }
+
+    public void setDateKeyCard(String dateKeyCard) {
+        this.dateKeyCard = dateKeyCard;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
     public String getConcept() {
