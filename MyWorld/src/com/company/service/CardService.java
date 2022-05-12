@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.model.Card;
 import com.company.model.User;
+import com.company.repository.CardRepository;
 import com.company.utils.Utilities;
 
 import java.time.LocalDate;
@@ -17,6 +18,9 @@ public class CardService {
         int pin = Utilities.createCardPin();
 
         Card cardCreated = new Card(cardNumber, amount, cardType, pin);
+
+        CardRepository.create(cardCreated);
+
         return cardCreated;
     }
 
