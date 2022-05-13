@@ -9,17 +9,18 @@ import java.util.ArrayList;
 
 public class UserService {
 
-
     public static User getUserByEmail(String userEmail) {
 
-        User userFound = null;
+//      User userFound = null;
 
-        ArrayList<User> users = UserController.getUsers();
-        for (User userByEmail : users) {
-            if (userByEmail.getEmail().equals(userEmail)) {
-                userFound = userByEmail;
-            }
-        }
+        User userFound = UserRepository.getUserByEmail(userEmail);
+
+//        ArrayList<User> users = UserController.getUsers();
+//        for (User userByEmail : users) {
+//            if (userByEmail.getEmail().equals(userEmail)) {
+//                userFound = userByEmail;
+//            }
+//        }
 
         return userFound;
     }
@@ -39,7 +40,7 @@ public class UserService {
 
     }
 
-    public static void createUser (User userToCreate ){
+    public static void create (User userToCreate ){
 
         UserRepository.create(userToCreate);
     }

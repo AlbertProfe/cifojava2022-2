@@ -1,8 +1,13 @@
 package com.company.test;
 
+import com.company.model.User;
+import com.company.service.UserService;
+
 public class UserTest {
 
     public static void userTest() {
+
+        getUserByEmail();
 //        //array list users to test
 //        ArrayList<User> usersTest = new ArrayList<>();
 //        createFakeUsers(usersTest);
@@ -20,6 +25,16 @@ public class UserTest {
 //        testDepositView();
 //        //testLoan(users);
 //        System.out.println("Tests USER ending... \n");
+    }
+
+    public static void getUserByEmail(){
+
+       User userFound = UserService.getUserByEmail("APixel@helsinki.uni");
+       System.out.println(userFound);
+
+       User userNotFound = UserService.getUserByEmail("APixel@toronto.uni");
+       System.out.println(userNotFound);
+
     }
 
 //    public static void createFakeUsers(ArrayList<User> usersTest) {

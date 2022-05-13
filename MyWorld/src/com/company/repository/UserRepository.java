@@ -1,17 +1,17 @@
 package com.company.repository;
 
-import com.company.model.Card;
+
 import com.company.model.User;
 import com.company.utils.JPAUtils;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.List;
 
 public class UserRepository {
 
     public static  void create(User userToSave){
         //create a manager to do all the CRUD operations with student object
-        //i can create manager cause I created JPAUtils
+        //I can create manager because I created JPAUtils
         EntityManager manager = JPAUtils.getEntityManger();
         //manager call Transaction, that is, it is a state to persist
         EntityTransaction transaction = manager.getTransaction();
@@ -23,4 +23,27 @@ public class UserRepository {
         transaction.commit();
         manager.close();
     }
+
+    public static User getUserByEmail(String userEmail){
+
+        EntityManager manager = JPAUtils.getEntityManger();
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+
+        //resultsUserFound = new ArrayList<>();
+
+        List<User> resultsUserFound = manager.createQuery("SELECT user FROM User  user WHERE user.email LIKE :email")
+                .setParameter("email", userEmail).getResultList();
+
+        transaction.commit();
+        manager.close();
+
+        User userFound = null;
+        if ( resultsUserFound.size() != 0 ) userFound = resultsUserFound.get(0);
+
+        return userFound;
+    }
+
 }
+
+

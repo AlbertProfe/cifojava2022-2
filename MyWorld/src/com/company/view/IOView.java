@@ -2,6 +2,7 @@ package com.company.view;
 
 import com.company.controller.UserController;
 import com.company.frontcontroller.FrontController;
+import com.company.test.UserTest;
 import com.company.utils.Utilities;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class IOView {
                 break;
             } else if (command.equals("test")) {
                 //We create this feature to test our soft
-                //UserTest.userTest();
+                UserTest.userTest();
                 //CardTest.cardTest();
             } else if (command.equals("release")) {
                 //Call the loop release
