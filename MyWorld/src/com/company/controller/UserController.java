@@ -130,12 +130,6 @@ public class UserController {
         User newUser3 = new User("Susan", "Lane", 46);
         User newUser4 = new User("Marta", "Gross", 86);
         User newUser5 = new User("Elon", "Musk", 56, "elon@musk.mars", "1234");
-        //let s persist on DB
-        UserService.create(newUser1);
-        UserService.create(newUser2);
-        UserService.create(newUser3);
-        UserService.create(newUser4);
-        UserService.create(newUser5);
         //let's fill the hashmap cards with the first card, key-value
         newUser1.getCards().put(cardNumber1, cardCreated1);
         newUser2.getCards().put(cardNumber2, cardCreated2);

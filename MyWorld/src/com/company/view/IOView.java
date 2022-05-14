@@ -22,7 +22,7 @@ public class IOView {
         //just for having some users to work with them
         //to-do: create a JSON to import when boot soft
         //or just a DB
-        UserController.createFakeUsers();
+        //UserController.createFakeUsers();
         while (true) {
             //print mode menu
             Menu.devMenu();

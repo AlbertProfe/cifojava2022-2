@@ -17,13 +17,13 @@ public class Card {
     public HashMap<String, ArrayList<Order>> ordersByMonth = new HashMap<>();
     //create table card(cardNumber bigInt not null, balance float, type varchar(25), pin integer, ordersByMonth varchar(255),primary key (cardNumber ))
     //create table card(cardNumber bigInt not null, balance float, type varchar(25), pin integer, dateKeys varchar(255),primary key (cardNumber ))
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
-            name="DATE_KEYS_BY_CARD",
-            joinColumns=@JoinColumn(name="CARD_NUMBER")
+            name = "DATE_KEYS_BY_CARD",
+            joinColumns=@JoinColumn(name = "CARD_NUMBER")
     )
-    @Column(name="DATE_KEYS")
-    List<String> dateKeys;
+    @Column(name = "DATE_KEYS")
+    List<String> dateKeys = new ArrayList<>();
 
 
     public Card() {

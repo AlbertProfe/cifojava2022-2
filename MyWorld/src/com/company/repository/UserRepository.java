@@ -2,7 +2,8 @@ package com.company.repository;
 
 
 import com.company.model.User;
-import com.company.utils.JPAUtils;
+import com.company.utils.EntityManagerFactoryUtils;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
@@ -11,8 +12,8 @@ public class UserRepository {
 
     public static  void create(User userToSave){
         //create a manager to do all the CRUD operations with student object
-        //I can create manager because I created JPAUtils
-        EntityManager manager = JPAUtils.getEntityManger();
+        //I can create manager because I created EntityManagerFactoryUtils
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
         //manager call Transaction, that is, it is a state to persist
         EntityTransaction transaction = manager.getTransaction();
         //let s start with begin the operations, thanks to transaction object
@@ -26,13 +27,11 @@ public class UserRepository {
 
     public static User getUserByEmail(String userEmail){
 
-        EntityManager manager = JPAUtils.getEntityManger();
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
 
-        //resultsUserFound = new ArrayList<>();
-
-        List<User> resultsUserFound = manager.createQuery("SELECT user FROM User  user WHERE user.email LIKE :email")
+        List<User> resultsUserFound = manager.createQuery("SELECT user FROM User user WHERE user.email LIKE :email")
                 .setParameter("email", userEmail).getResultList();
 
         transaction.commit();
@@ -44,6 +43,20 @@ public class UserRepository {
         return userFound;
     }
 
+    public static List<User> getAllUsers() {
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+
+        List<User> resultsUsersFound = manager.createQuery("SELECT user FROM User user")
+                .getResultList();
+
+        transaction.commit();
+        manager.close();
+
+        return resultsUsersFound;
+
+    }
 }
 
 

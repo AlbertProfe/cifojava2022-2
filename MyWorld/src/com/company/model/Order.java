@@ -12,12 +12,12 @@ public class Order {
     private String concept;
     private Double amount;
     private LocalDate date;
-
     private String dateKeyCard;
 
 
     public Order() {
     }
+
 
     public Order(String concept, Double amount, LocalDate date) {
         this.concept = concept;
@@ -25,11 +25,20 @@ public class Order {
         this.date = date;
     }
 
+    public Order(String concept, Double amount, LocalDate date, String dateKeyCard) {
+        this.concept = concept;
+        this.amount = amount;
+        this.date = date;
+        this.dateKeyCard = dateKeyCard;
+    }
+
+
     public Order(String concept, Double amount) {
         this.concept = concept;
         this.amount = amount;
         this.date = createLocalDate();
     }
+
 
     private LocalDate createLocalDate() {
         LocalDate date = LocalDate.now();

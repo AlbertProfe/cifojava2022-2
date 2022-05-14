@@ -24,13 +24,13 @@ public class User {
     //key-String-Month and value-List-Order
     @Transient
     public HashMap<Long, Card> cards;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
-            name="CARDS_BY_USER",
-            joinColumns=@JoinColumn(name="USER_ID")
+            name = "CARDS_BY_USER",
+            joinColumns = @JoinColumn(name = "USER_ID")
     )
-    @Column(name="CARD_NUMBER")
-    public List<Long> cardNumbersList;
+    @Column(name = "CARD_NUMBER")
+    public List<Long> cardNumbersList = new ArrayList<>();
 
 
     public User() {
@@ -43,7 +43,7 @@ public class User {
         this.email = Utilities.createEmail(name, surname);
         this.password = Utilities.createPassword();
         this.cards = new HashMap<>();
-        this.cardNumbersList = new ArrayList<Long>(cards.keySet());
+
     }
 
     public User(String name, String surname, int age, String email, String password) {
@@ -53,7 +53,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.cards = new HashMap<>();
-        this.cardNumbersList = new ArrayList<Long>(cards.keySet());
+
     }
 
     public long getUserId() {
@@ -120,6 +120,14 @@ public class User {
         this.cardNumbersList = cardNumbersList;
     }
 
+    public void addCardNumber (long cardNumber){
+        cardNumbersList.add(cardNumber);
+    }
+
+    public void removeCardNumber (long cardNumber){
+        cardNumbersList.remove(cardNumber);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -129,7 +137,8 @@ public class User {
                 ", age=" + age +
                 ", email=" + email +
                 ", password=" + password +
-                ", \n\t cards=" + cards +
+                ", \n\t cardsHash=" + cards +
+                ", \n\t cardsList=" + cardNumbersList +
                 "}\n";
     }
 }

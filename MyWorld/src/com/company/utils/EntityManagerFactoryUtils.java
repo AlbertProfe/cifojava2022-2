@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
-public class JPAUtils {
+public class EntityManagerFactoryUtils {
 
     public static EntityManagerFactory entityManagerFactory = createEntityManagerFactory();
 
