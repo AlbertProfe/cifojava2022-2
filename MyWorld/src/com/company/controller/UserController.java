@@ -25,11 +25,15 @@ public class UserController {
         //Let s introduce data to create User
         User createdUser = new User(name, surname, age);
         long cardNumber = cardCreated.getCardNumber();
-        //we PUT a card object to cards
-        createdUser.getCards().put(cardNumber, cardCreated);
-
+        //we PUT a card object to cards: HashMap
+        //createdUser.getCards().put(cardNumber, cardCreated);
+        //we PUT a card object to cards: List
+        createdUser.addCardNumber(cardNumber);
         //Let s add this new User object to the main (and just one) array
-        boolean statusOperation = users.add(createdUser);
+        //boolean statusOperation = users.add(createdUser);
+        //Let s add this new User object to DB
+        boolean statusOperation = UserService.create(createdUser);
+
         //let s create a response HashMap
         HashMap<String, String> createUserResponse = new HashMap<>();
         createUserResponse.put("response", "createUserResponse");

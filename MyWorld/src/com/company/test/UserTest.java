@@ -17,7 +17,7 @@ public class UserTest {
 
     public static void userTest() {
         //test user with local server H2 DB
-        fillDataBase();
+        //fillDataBase();
         printUsers();
         getUserByEmail();
     }
@@ -56,7 +56,7 @@ public class UserTest {
         Card cardCreated2 = CardService.createCard();
         Card cardCreated3 = CardService.createCard();
         Card cardCreated4 = CardService.createCard();
-        Card cardCreated5 = new Card(12341234123412354L, 10000.00, "PayPal", 1234);
+        Card cardCreated5 = new Card(12341234123412358L, 10000.00, "PayPal", 1234);
         //let s create a keyMonthDate in card #5
         cardCreated5.addDateKeys("052022");
 

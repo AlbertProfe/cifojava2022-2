@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserRepository {
 
-    public static  void create(User userToSave){
+    public static boolean create(User userToSave){
         //create a manager to do all the CRUD operations with student object
         //I can create manager because I created EntityManagerFactoryUtils
         EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
@@ -23,20 +23,22 @@ public class UserRepository {
         //this operation WRITES the object on the actual table
         transaction.commit();
         manager.close();
+
+        return true;
     }
 
     public static User getUserByEmail(String userEmail){
-
+        //create manager object, and transaction begins ...
         EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
-
+        //manager calls createQuery
         List<User> resultsUserFound = manager.createQuery("SELECT user FROM User user WHERE user.email LIKE :email")
                 .setParameter("email", userEmail).getResultList();
-
+        //lets execute the JPQL query AGAINST our TABLE
         transaction.commit();
         manager.close();
-
+        //we will user this userFound object as a container
         User userFound = null;
         if ( resultsUserFound.size() != 0 ) userFound = resultsUserFound.get(0);
 
