@@ -2,16 +2,17 @@ package com.company.controller;
 
 import com.company.model.Card;
 import com.company.model.User;
+import com.company.repository.CardRepository;
 import com.company.repository.UserRepository;
 import com.company.service.CardService;
 import com.company.service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserController {
     //just an arraylist to store users
-    //
     static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
@@ -21,16 +22,12 @@ public class UserController {
         int age = Integer.parseInt(dataToCreateUser.get("age"));
 
         //call to create a RANDOM card and return an object CARD
+        //and create User with a cardNumber long
         Card cardCreated = CardService.createCard();
-        //Let s introduce data to create User
         User createdUser = new User(name, surname, age);
         long cardNumber = cardCreated.getCardNumber();
-        //we PUT a card object to cards: HashMap
-        //createdUser.getCards().put(cardNumber, cardCreated);
-        //we PUT a card object to cards: List
         createdUser.addCardNumber(cardNumber);
-        //Let s add this new User object to the main (and just one) array
-        //boolean statusOperation = users.add(createdUser);
+
         //Let s add this new User object to DB
         boolean statusOperation = UserService.create(createdUser);
 
@@ -66,7 +63,9 @@ public class UserController {
     }
 
     public static HashMap<String, String> printMembers() {
-        //
+        //get all users from DB USER_TABLE
+        List<User> users = UserService.getAllUsers();
+        //hashmap response
         HashMap<String, String> printMembersResponse = new HashMap<>();
         printMembersResponse.put("response", "printMembersResponse");
         printMembersResponse.put("listMembersSize", String.valueOf(users.size()));
@@ -88,7 +87,7 @@ public class UserController {
         String cardsByUser = "";
         int cardsQty = 0;
         if (userFound != null) {
-            cardsByUser = String.valueOf(userFound.getCards().keySet());
+            cardsByUser = String.valueOf(userFound.getCardNumbersList());
             cardsQty = userFound.getCards().size();
             getCardsByUserResponse.put("status", "cards found");
         } else {
@@ -106,6 +105,7 @@ public class UserController {
         HashMap<String, String> userEmailsResponse = new HashMap<>();
         userEmailsResponse.put("response", "userEmailsResponse");
 
+        List<User> users = UserService.getAllUsers();
         String userEmails = "";
         for (User user : users) {
             userEmails = userEmails + user.getEmail() + ",\n";
@@ -113,39 +113,6 @@ public class UserController {
         userEmailsResponse.put("userEmails", userEmails);
 
         return userEmailsResponse;
-    }
-
-    public static void createFakeUsers() {
-        //let's create some cards
-        Card cardCreated1 = CardService.createCard();
-        Card cardCreated2 = CardService.createCard();
-        Card cardCreated3 = CardService.createCard();
-        Card cardCreated4 = CardService.createCard();
-        Card cardCreated5 = new Card(12341234123412354L, 10000.00, "PayPal", 1234);
-        //let's extract the card number from card
-        long cardNumber1 = cardCreated1.getCardNumber();
-        long cardNumber2 = cardCreated2.getCardNumber();
-        long cardNumber3 = cardCreated3.getCardNumber();
-        long cardNumber4 = cardCreated4.getCardNumber();
-        long cardNumber5 = cardCreated5.getCardNumber();
-        //just to work with them, no having a void arraylist
-        User newUser1 = new User("Alex", "Pixel", 25);
-        User newUser2 = new User("Thomas", "Edison", 35);
-        User newUser3 = new User("Susan", "Lane", 46);
-        User newUser4 = new User("Marta", "Gross", 86);
-        User newUser5 = new User("Elon", "Musk", 56, "elon@musk.mars", "1234");
-        //let's fill the hashmap cards with the first card, key-value
-        newUser1.getCards().put(cardNumber1, cardCreated1);
-        newUser2.getCards().put(cardNumber2, cardCreated2);
-        newUser3.getCards().put(cardNumber3, cardCreated3);
-        newUser4.getCards().put(cardNumber4, cardCreated4);
-        newUser5.getCards().put(cardNumber5, cardCreated5);
-        //add users to list
-        users.add(newUser1);
-        users.add(newUser2);
-        users.add(newUser3);
-        users.add(newUser4);
-        users.add(newUser5);
     }
 
     public static ArrayList<User> getUsers() {

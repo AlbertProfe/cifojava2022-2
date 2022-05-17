@@ -6,22 +6,13 @@ import com.company.repository.CardRepository;
 import com.company.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
 
     public static User getUserByEmail(String userEmail) {
         //call against DB h2
         User userFound = UserRepository.getUserByEmail(userEmail);
-
-//      old CODE;
-//      User userFound = null;
-//        ArrayList<User> users = UserController.getUsers();
-//        for (User userByEmail : users) {
-//            if (userByEmail.getEmail().equals(userEmail)) {
-//                userFound = userByEmail;
-//            }
-//        }
-
         return userFound;
     }
 
@@ -41,10 +32,12 @@ public class UserService {
     }
 
     public static boolean create (User userToCreate ){
-
+        //call to repo DB to create user on DB
         boolean resultOperation = UserRepository.create(userToCreate);
-
         return resultOperation;
     }
 
+    public static List<User> getAllUsers() {
+        return UserRepository.getAllUsers();
+    }
 }

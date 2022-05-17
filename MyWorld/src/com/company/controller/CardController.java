@@ -12,6 +12,24 @@ import java.util.HashMap;
 
 public class CardController {
 
+    public static HashMap<String, String> createCard(HashMap<String, String> userEmailToCreateCard) {
+        //unpack data: user email
+        String userEmail = userEmailToCreateCard.get("userEmail");
+        //get user by email
+        User user = UserService.getUserByEmail(userEmail);
+        //create a Card
+        Card cardCreated = CardService.createCard();
+        long cardNumber = cardCreated.getCardNumber();
+        user.getCards().put(cardNumber, cardCreated);
+
+        HashMap<String, String> createCardResponse = new HashMap<>();
+        createCardResponse.put("response", "createCardResponse");
+        createCardResponse.put("status", "card created");
+        createCardResponse.put("card data", cardCreated.toString());
+
+        return createCardResponse;
+    }
+
     public static HashMap<String, String> changePin(HashMap<String, String> dataToChangePin) {
         //get data from hashmap
         long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
@@ -151,23 +169,5 @@ public class CardController {
         }
 
         return buyResponse;
-    }
-
-    public static HashMap<String, String> createCard(HashMap<String, String> userEmailToCreateCard) {
-        //unpack data: user email
-        String userEmail = userEmailToCreateCard.get("userEmail");
-        //get user by email
-        User user = UserService.getUserByEmail(userEmail);
-        //create a Card
-        Card cardCreated = CardService.createCard();
-        long cardNumber = cardCreated.getCardNumber();
-        user.getCards().put(cardNumber, cardCreated);
-
-        HashMap<String, String> createCardResponse = new HashMap<>();
-        createCardResponse.put("response", "createCardResponse");
-        createCardResponse.put("status", "card created");
-        createCardResponse.put("card data", cardCreated.toString());
-
-        return createCardResponse;
     }
 }
