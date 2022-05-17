@@ -40,4 +40,10 @@ public class UserService {
     public static List<User> getAllUsers() {
         return UserRepository.getAllUsers();
     }
+
+    public static User update(User userToUpdate) {
+        //
+        User userUpdated = UserRepository.update(userToUpdate);
+        return userUpdated;
+    }
 }

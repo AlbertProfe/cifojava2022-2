@@ -59,6 +59,19 @@ public class UserRepository {
         return resultsUsersFound;
 
     }
+
+    public static User update(User userToUpdate) {
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+
+        User userUpdated = manager.merge(userToUpdate);
+
+        transaction.commit();
+        manager.close();
+
+        return userUpdated;
+    }
 }
 
 

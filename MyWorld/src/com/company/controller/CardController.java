@@ -20,12 +20,14 @@ public class CardController {
         //create a Card
         Card cardCreated = CardService.createCard();
         long cardNumber = cardCreated.getCardNumber();
-        user.getCards().put(cardNumber, cardCreated);
+        user.addCardNumber(cardNumber);
+        User userUpdated = UserService.update(user);
 
         HashMap<String, String> createCardResponse = new HashMap<>();
         createCardResponse.put("response", "createCardResponse");
         createCardResponse.put("status", "card created");
         createCardResponse.put("card data", cardCreated.toString());
+        createCardResponse.put("user updated", String.valueOf(userUpdated));
 
         return createCardResponse;
     }
