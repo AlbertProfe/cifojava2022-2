@@ -85,7 +85,7 @@ public class IOView {
         }
     }
 
-    public static void loopUser(Scanner reader, String userEmailValdated) {
+    public static void loopUser(Scanner reader, String userEmailValidated) {
         //release User loop starting
         while (true) {
             //print user menu
@@ -96,7 +96,7 @@ public class IOView {
                 break;
             } else if (command.equals("changePin")) {
                 //call-operation to change pin
-                changePin(reader);
+                changePin(reader, userEmailValidated);
             } else if (command.equals("transfer")) {
                 //call-operation to make a transfer
                 transfer(reader);
@@ -105,13 +105,13 @@ public class IOView {
                 deposit(reader);
             } else if (command.equals("buy")) {
                 //call-operation to create new user
-                buy(reader, userEmailValdated);
+                buy(reader, userEmailValidated);
             } else if (command.equals("changePassword")) {
                 //call-operation to create new user
                 //changePassword(reader);
             } else if (command.equals("printData")) {
                 //call-operation to create new user
-                printData(userEmailValdated);
+                printData(userEmailValidated);
             } else System.out.println("Unknown command");
         }
     }
@@ -221,20 +221,28 @@ public class IOView {
 
     }
 
-    public static String changePin(Scanner reader) {
+    public static String changePin(Scanner reader, String userEmailValidated) {
         //ask for card number and check if this card number exists within users
-        String cardNumber = Utilities.ask(reader, "Number Card?");
-        //just ask for new pin and set new pin to users-user-card-pin
-        String newPin = Utilities.ask(reader, "New Pin?");
-        HashMap<String, String> changePinRequest = new HashMap<>();
-        //fill data hashmap object
-        changePinRequest.put("operation", "changePin");
-        changePinRequest.put("cardNumber", cardNumber);
-        changePinRequest.put("newPin", newPin);
+        List userAndCardToBuy = loopShowAndPickCard(reader, userEmailValidated);
+        boolean exit = userAndCardToBuy.get(1).equals("quit");
+        String changePinStatus = "quited changed pin";
+        if(!exit) {
 
-        HashMap<String, String> changePinResponse = FrontController.mainLoopController(changePinRequest);
-        String changePinStatus = changePinResponse.get("status");
-        System.out.println("status user: " + changePinStatus + "\n" + changePinResponse.get("message"));
+            String cardNumber = userAndCardToBuy.get(1).toString();
+            //String cardNumber = Utilities.ask(reader, "Number Card?");
+            //just ask for new pin and set new pin to users-user-card-pin
+            String newPin = Utilities.ask(reader, "New Pin?");
+            HashMap<String, String> changePinRequest = new HashMap<>();
+            //fill data hashmap object
+            changePinRequest.put("operation", "changePin");
+            changePinRequest.put("cardNumber", cardNumber);
+            changePinRequest.put("newPin", newPin);
+
+            HashMap<String, String> changePinResponse = FrontController.mainLoopController(changePinRequest);
+            changePinStatus = changePinResponse.get("status");
+            System.out.println("status operation: " + changePinStatus + "\n" + changePinResponse.get("message"));
+            System.out.println("card updated: " + "\n" + changePinResponse.get("cardUpdated"));
+        }
 
         return changePinStatus;
 

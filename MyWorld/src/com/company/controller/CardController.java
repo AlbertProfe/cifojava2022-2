@@ -36,23 +36,25 @@ public class CardController {
         //get data from hashmap
         long cardNumber = Long.parseLong((dataToChangePin.get("cardNumber")));
         int newPin = Integer.parseInt(dataToChangePin.get("newPin"));
-        //get user from card
-        User user = UserService.getUserByCard(cardNumber);
+
+        Card cardFound = CardService.getCardById(cardNumber);
 
         HashMap<String, String> changePinResponse = new HashMap<>();
         changePinResponse.put("response", "changePinResponse");
-        int oldPin = user.getCards().get(cardNumber).getPin();
+        int oldPin = cardFound.getPin();
 
         //if card number exists make the change Pin operation
-        if (user != null) {
+        if (cardFound != null) {
             //update pin
-            user.getCards().get(cardNumber).setPin(newPin);
+            cardFound.setPin(newPin);
+            Card cardUpdated = CardService.update(cardFound);
             changePinResponse.put("status", "pinUpdated");
-            changePinResponse.put("message", "Pin changed success. From old Pin number ( #: " + oldPin + " ) to new Pin number ( # " + newPin + " )");
+            changePinResponse.put("message", "Pin changed success. From old Pin number ( #" + oldPin + " ) to new Pin number ( #" + newPin + " )");
+            changePinResponse.put("cardUpdated", cardUpdated.toString() );
             //if card number does not exist monitor this to user
         } else {
             changePinResponse.put("status", "pinNotUpdated");
-            changePinResponse.put("message", "This credit card number ( #: " + cardNumber + " ) does not exist");
+            changePinResponse.put("message", "This credit card number ( #" + cardNumber + " ) does not exist");
         }
 
         return changePinResponse;
@@ -76,9 +78,9 @@ public class CardController {
         transferResponse.put("status", "transfer NOT done");
 
         if (originUser == null) {
-            transferResponse.put("message", "This user (origin) from ( #: " + originCardNumber + " ) does not exist");
+            transferResponse.put("message", "This user (origin) from ( #" + originCardNumber + " ) does not exist");
         } else if (destinationUser == null) {
-            transferResponse.put("message", "This user (destination) from ( #: " + destinationCardNumber + " ) does not exist");
+            transferResponse.put("message", "This user (destination) from ( #" + destinationCardNumber + " ) does not exist");
         } else if (!isEnoughBalance) {
             transferResponse.put("message", "Check if credit card has not got enough money to make a transfer ...");
         } else {
@@ -152,7 +154,7 @@ public class CardController {
         } else {
             boolean isKeyMonthEntry = user.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
             if (!isKeyMonthEntry) {
-                // we need to create a new entry on hashma
+                // we need to create a new entry on hashmap
                 //with a new list where we ADD the new created order
                 // PUT operation: key (String: dataKey) and value (List: ordersList)
                 ArrayList<Order> ordersList = new ArrayList<>();

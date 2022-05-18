@@ -26,7 +26,6 @@ public class UserService {
                 userFound = userByCardNumber;
             }
         }
-
         return userFound;
 
     }
@@ -42,7 +41,7 @@ public class UserService {
     }
 
     public static User update(User userToUpdate) {
-        //
+        //to repo-db
         User userUpdated = UserRepository.update(userToUpdate);
         return userUpdated;
     }

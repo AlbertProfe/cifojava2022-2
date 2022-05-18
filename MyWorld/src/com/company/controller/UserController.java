@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserController {
-    //just an arraylist to store users
+    //toi-delete
     static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
@@ -88,7 +88,7 @@ public class UserController {
         int cardsQty = 0;
         if (userFound != null) {
             cardsByUser = String.valueOf(userFound.getCardNumbersList());
-            cardsQty = userFound.getCards().size();
+            cardsQty = userFound.getCardNumbersList().size();
             getCardsByUserResponse.put("status", "cards found");
         } else {
             cardsByUser = "user not found";
@@ -115,6 +115,7 @@ public class UserController {
         return userEmailsResponse;
     }
 
+    //to-delete
     public static ArrayList<User> getUsers() {
         return users;
     }

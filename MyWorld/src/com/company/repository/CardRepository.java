@@ -21,4 +21,27 @@ public class CardRepository {
         transaction.commit();
         manager.close();
     }
+
+    public static Card getCardById(long cardNumber) {
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+
+        Card cardFound = manager.find( Card.class, cardNumber);
+        //this operation WRITES the object on the actual table
+        transaction.commit();
+        manager.close();
+
+        return  cardFound;
+    }
+
+    public static Card update(Card cardToUpdate) {
+        EntityManager manager = EntityManagerFactoryUtils.getEntityManger();
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+
+        Card cardUpdated = manager.merge(cardToUpdate);
+
+        return cardUpdated;
+    }
 }

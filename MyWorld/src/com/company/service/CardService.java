@@ -11,14 +11,15 @@ import java.time.LocalDate;
 public class CardService {
 
     public static Card createCard() {
-
+        //let s get some random data to cardNumber, cardType and pin
         long cardNumber = Utilities.createCardNumber();
         double amount = 100.00;
         String cardType = Utilities.createTypeCard();
         int pin = Utilities.createCardPin();
 
+        //with random data we will create a NEW CARD OBJECT, so
+        //after that we will call the repo-DB
         Card cardCreated = new Card(cardNumber, amount, cardType, pin);
-
         CardRepository.create(cardCreated);
 
         return cardCreated;
@@ -52,4 +53,13 @@ public class CardService {
     }
 
 
+    public static Card getCardById(long cardNumber) {
+        Card cardFound = CardRepository.getCardById(cardNumber);
+        return cardFound;
+    }
+
+    public static Card update(Card cardFound) {
+        Card cardUpdated = CardRepository.update(cardFound);
+        return cardUpdated;
+    }
 }
