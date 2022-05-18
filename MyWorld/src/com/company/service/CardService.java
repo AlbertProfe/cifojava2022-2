@@ -6,6 +6,8 @@ import com.company.repository.CardRepository;
 import com.company.utils.Utilities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CardService {
@@ -39,17 +41,24 @@ public class CardService {
         return dateKey;
     }
 
-    public static boolean isEnoughBalance(User user, long cardNumber, Double amount) {
+    public static boolean isEnoughBalance(long cardNumber, Double amount) {
         //check if is enough money in origin card
-        boolean isMoney = user.getCards().get(cardNumber).getBalance() >= amount;
+        boolean isMoney = CardService.getCardById(cardNumber).getBalance() >= amount;
         return isMoney;
     }
 
-    public static void makeTransfer(User originUser, User destinationUser, long originCardNumber, long destinationCardNumber, double amount) {
+
+    public static List<Card> makeTransfer( Card originCard, Card destinationCard, double amount) {
+        List<Card> cardsUpdated = new ArrayList<>();
         //rest this qty amount from origin
-        originUser.getCards().get(originCardNumber).removeAmount(amount);
+        originCard.removeAmount(amount);
+        Card originCardUpdated = CardService.update(originCard);
+        cardsUpdated.add(originCardUpdated);
         //add this qty amount from destination
-        destinationUser.getCards().get(destinationCardNumber).addAmount(amount);
+        destinationCard.addAmount(amount);
+        Card destinationCardUpdated = CardService.update(destinationCard);
+        cardsUpdated.add(destinationCardUpdated);
+        return cardsUpdated;
     }
 
 

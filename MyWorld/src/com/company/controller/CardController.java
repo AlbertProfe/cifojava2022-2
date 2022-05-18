@@ -9,6 +9,7 @@ import com.company.service.UserService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CardController {
 
@@ -65,40 +66,42 @@ public class CardController {
         long originCardNumber = Long.valueOf((dataToTransfer.get("originCardNumber")));
         long destinationCardNumber = Long.valueOf((dataToTransfer.get("destinationCardNumber")));
         double amount = Double.parseDouble(dataToTransfer.get("amount"));
-
-        //get user from card
-        User originUser = UserService.getUserByCard(originCardNumber);
-        User destinationUser = UserService.getUserByCard(destinationCardNumber);
-
-        //check weather there is balance
-        boolean isEnoughBalance = CardService.isEnoughBalance(originUser, originCardNumber, amount);
-
+        //create hash response
         HashMap<String, String> transferResponse = new HashMap<>();
         transferResponse.put("response", "transferResponse");
         transferResponse.put("status", "transfer NOT done");
+        //check weather there is balance and check cards numbers
+        boolean isEnoughBalance = CardService.isEnoughBalance(originCardNumber, amount);
+        Card originCard = CardService.getCardById(originCardNumber);
+        Card destinationCard =  CardService.getCardById(destinationCardNumber);
+        boolean isOriginCardNumber = originCard != null;
+        boolean isDestinationCardNumber = destinationCard != null;
 
-        if (originUser == null) {
+        if (!isOriginCardNumber) {
             transferResponse.put("message", "This user (origin) from ( #" + originCardNumber + " ) does not exist");
-        } else if (destinationUser == null) {
+        } else if (!isDestinationCardNumber) {
             transferResponse.put("message", "This user (destination) from ( #" + destinationCardNumber + " ) does not exist");
         } else if (!isEnoughBalance) {
             transferResponse.put("message", "Check if credit card has not got enough money to make a transfer ...");
         } else {
             //now it is possible to make a transfer, call makeTransfer
-            double originBalance = originUser.getCards().get(originCardNumber).getBalance();
-            double depositBalance = destinationUser.getCards().get(originCardNumber).getBalance();
-            CardService.makeTransfer(originUser, destinationUser, originCardNumber, destinationCardNumber, amount);
-            double originBalanceAfterDeposit = originUser.getCards().get(originCardNumber).getBalance();
-            double destinationBalanceAfterDeposit = destinationUser.getCards().get(originCardNumber).getBalance();
+            double originBalance = originCard.getBalance();
+            double destinationBalance = destinationCard.getBalance();
+            //call make transfer and repo-db
+            List<Card> cardsUpdated = CardService.makeTransfer(originCard, destinationCard, amount);
+            double originBalanceAfter = cardsUpdated.get(0).getBalance();
+            double destinationBalanceAfter = cardsUpdated.get(1).getBalance();
 
             transferResponse.put("status", "transfer done");
             transferResponse.put("message", "From " + originCardNumber + " to " + destinationCardNumber + " " + amount
-                    + "\nBalance Origin account: " + originBalance + " to " + originBalanceAfterDeposit
-                    + "\nBalance Destination account: " + depositBalance + " to " + destinationBalanceAfterDeposit);
+                    + "\nBalance Origin account: " + originBalance + " to " + originBalanceAfter
+                    + "\nBalance Destination account: " + destinationBalance + " to " + destinationBalanceAfter);
         }
 
         return transferResponse;
     }
+
+    //********************** to refactor 2.4.5 -  2.4.6 *******************************************
 
     public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
         //
@@ -142,7 +145,7 @@ public class CardController {
         String dataKey = CardService.createDateKey(dateOrder);
 
         //check weather there is balance
-        boolean isEnoughBalance = CardService.isEnoughBalance(user, cardNumber, amountProduct);
+        boolean isEnoughBalance = CardService.isEnoughBalance(cardNumber, amountProduct);
         //creating response hashmap
         HashMap<String, String> buyResponse = new HashMap<>();
         buyResponse.put("response", "buyResponse");

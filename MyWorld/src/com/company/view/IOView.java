@@ -99,7 +99,7 @@ public class IOView {
                 changePin(reader, userEmailValidated);
             } else if (command.equals("transfer")) {
                 //call-operation to make a transfer
-                transfer(reader);
+                transfer(reader, userEmailValidated);
             } else if (command.equals("deposit")) {
                 //call-operation to deposit some amount
                 deposit(reader);
@@ -223,12 +223,12 @@ public class IOView {
 
     public static String changePin(Scanner reader, String userEmailValidated) {
         //ask for card number and check if this card number exists within users
-        List userAndCardToBuy = loopShowAndPickCard(reader, userEmailValidated);
-        boolean exit = userAndCardToBuy.get(1).equals("quit");
+        List userAndCardChangePin = loopShowAndPickCard(reader, userEmailValidated);
+        boolean exit = userAndCardChangePin.get(1).equals("quit");
         String changePinStatus = "quited changed pin";
         if(!exit) {
 
-            String cardNumber = userAndCardToBuy.get(1).toString();
+            String cardNumber = userAndCardChangePin.get(1).toString();
             //String cardNumber = Utilities.ask(reader, "Number Card?");
             //just ask for new pin and set new pin to users-user-card-pin
             String newPin = Utilities.ask(reader, "New Pin?");
@@ -248,10 +248,33 @@ public class IOView {
 
     }
 
-    public static String transfer(Scanner reader) {
-        //ask for card number and check if this card number exists within users
-        String originCardNumber = Utilities.ask(reader, "Origin Number Card?");
-        String destinationCardNumber = Utilities.ask(reader, "Destination Number Card?");
+    public static String transfer(Scanner reader, String userEmailValidated) {
+        //ask for ORIGIN card number and check if this card number exists within USER VALIDATED
+        System.out.println( "Transfer: Origin Number Card?");
+        List userAndCardToTransferOrigin = loopShowAndPickCard(reader, userEmailValidated);
+        boolean exitOrigin = userAndCardToTransferOrigin.get(1).equals("quit");
+        String transferStatus = "quited transfer";
+        //quit origin card
+        if(exitOrigin) { return transferStatus;}
+
+        //ask for USER email to pick a card number to DESTINATION card
+        System.out.println( "Transfer: Destination Number Card?");
+        HashMap<String, String> getUserEmailsRequest = new HashMap<>();
+        getUserEmailsRequest.put("operation", "getUserEmails");
+        //send request hashMap to get user-emails
+        HashMap<String, String> getUserEmailsResponse = FrontController.mainLoopController(getUserEmailsRequest);
+        String userEmails = getUserEmailsResponse.get("userEmails");
+        System.out.println("User emails : \n" + userEmails);
+        //ask for user email
+        String userEmailToTransfer = Utilities.ask(reader, "User email?");
+        List userAndCardToTransferDestination = loopShowAndPickCard(reader, userEmailToTransfer);
+        boolean exitDestination = userAndCardToTransferDestination.get(1).equals("quit");
+        //quit origin card
+        if (exitDestination) {return transferStatus;}
+
+        //with cards origin and destination we can ask for amount and make the transfer
+        String originCardNumber = userAndCardToTransferOrigin.get(1).toString();
+        String destinationCardNumber = userAndCardToTransferDestination.get(1).toString();
         String amount = Utilities.ask(reader, "Amount?");
 
         HashMap<String, String> transferRequest = new HashMap<>();
@@ -260,13 +283,12 @@ public class IOView {
         transferRequest.put("originCardNumber", originCardNumber);
         transferRequest.put("destinationCardNumber", destinationCardNumber);
         transferRequest.put("amount", amount);
-
+        //make transfer
         HashMap<String, String> transferResponse = FrontController.mainLoopController(transferRequest);
-        String transferStatus = transferResponse.get("status");
+        transferStatus = transferResponse.get("status");
         System.out.println("status transfer: " + transferStatus + "\n" + transferResponse.get("message"));
 
         return transferStatus;
-
     }
 
     public static String deposit(Scanner reader) {

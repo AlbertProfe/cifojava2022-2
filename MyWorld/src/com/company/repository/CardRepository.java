@@ -42,6 +42,10 @@ public class CardRepository {
 
         Card cardUpdated = manager.merge(cardToUpdate);
 
+        transaction.commit();
+        manager.close();
+
+
         return cardUpdated;
     }
 }
