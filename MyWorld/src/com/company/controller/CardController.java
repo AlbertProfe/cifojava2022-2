@@ -3,6 +3,8 @@ package com.company.controller;
 import com.company.model.Card;
 import com.company.model.Order;
 import com.company.model.User;
+import com.company.repository.CardRepository;
+import com.company.repository.OrderRepository;
 import com.company.service.CardService;
 import com.company.service.UserService;
 
@@ -128,8 +130,6 @@ public class CardController {
         return depositResponse;
     }
 
-    //********************** to refactor 2.4.6 *******************************************
-
     public static HashMap<String, String> buy(HashMap<String, String> dataToBuy) {
         //unpack dataToBuy: user and card
         String userEmail = dataToBuy.get("userEmail");
@@ -137,14 +137,9 @@ public class CardController {
         //unpack dataToBuy: data to create order
         String productDescription = dataToBuy.get("productDescription");
         double amountProduct = Double.parseDouble(dataToBuy.get("amountProduct"));
-        //get user by email
-        User user = UserService.getUserByEmail(userEmail);
-        //get users list: no need to user this getter
-        //ArrayList<User> users = UserController.getUsers();
-        //create order object
-        Order orderCreated = new Order(productDescription, amountProduct);
-        LocalDate dateOrder = orderCreated.getDate();
-        String dataKey = CardService.createDateKey(dateOrder);
+
+        Card cardToBuy = CardService.getCardById(cardNumber);
+        boolean isOriginCardNumber = cardToBuy != null;
 
         //check weather there is balance
         boolean isEnoughBalance = CardService.isEnoughBalance(cardNumber, amountProduct);
@@ -153,26 +148,22 @@ public class CardController {
         buyResponse.put("response", "buyResponse");
 
         //main business logic method
-        if (!isEnoughBalance) {
+        if (!isEnoughBalance || !isOriginCardNumber ) {
             buyResponse.put("status", "order not done");
             buyResponse.put("message", "not enough money");
         } else {
-            boolean isKeyMonthEntry = user.getCards().get(cardNumber).getOrdersByMonth().containsKey(dataKey);
-            if (!isKeyMonthEntry) {
-                // we need to create a new entry on hashmap
-                //with a new list where we ADD the new created order
-                // PUT operation: key (String: dataKey) and value (List: ordersList)
-                ArrayList<Order> ordersList = new ArrayList<>();
-                ordersList.add(orderCreated);
-                user.getCards().get(cardNumber).getOrdersByMonth().put(dataKey, ordersList);
-            } else {
-                //entry exists we do an ADD to the old entry, we update the list
-                user.getCards().get(cardNumber).getOrdersByMonth().get(dataKey).add(orderCreated);
-            }
+            Order orderCreated = new Order(productDescription, amountProduct);
+            LocalDate dateOrder = orderCreated.getDate();
+            String dataKey = CardService.createDateKey(dateOrder);
+            if (!cardToBuy.getDateKeys().contains(dataKey)) cardToBuy.addDateKeys(dataKey);
+            orderCreated.setDateKeyCard(dataKey);
             //operation pay the buy
-            user.getCards().get(cardNumber).removeAmount(amountProduct);
+            cardToBuy.removeAmount(amountProduct);
             //updated balance
-            double balanceUpdated = user.getCards().get(cardNumber).getBalance();
+            OrderRepository.create(orderCreated);
+            Card cardUpdated = CardRepository.update(cardToBuy);
+
+            double balanceUpdated = cardUpdated.getBalance();
             buyResponse.put("status", "buy done");
             buyResponse.put("message", amountProduct + " Euros payed on card " + cardNumber + ". Balance updated: " + balanceUpdated);
         }

@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserController {
-    //toi-delete
-    static ArrayList<User> users = new ArrayList<>();
 
     public static HashMap<String, String> createUser(HashMap<String, String> dataToCreateUser) {
         //unpack dataToCreateUser hashmap to get data
@@ -115,8 +113,4 @@ public class UserController {
         return userEmailsResponse;
     }
 
-    //to-delete
-    public static ArrayList<User> getUsers() {
-        return users;
-    }
 }

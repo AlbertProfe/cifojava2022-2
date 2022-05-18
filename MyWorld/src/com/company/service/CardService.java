@@ -27,10 +27,6 @@ public class CardService {
         return cardCreated;
     }
 
-    public static Card createCardByUser() {
-        //
-        return null;
-    }
 
     public static String createDateKey(LocalDate dateOrder) {
         //let s concatenate month and year
