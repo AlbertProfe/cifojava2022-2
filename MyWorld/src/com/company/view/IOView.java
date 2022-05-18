@@ -102,7 +102,7 @@ public class IOView {
                 transfer(reader, userEmailValidated);
             } else if (command.equals("deposit")) {
                 //call-operation to deposit some amount
-                deposit(reader);
+                deposit(reader, userEmailValidated) ;
             } else if (command.equals("buy")) {
                 //call-operation to create new user
                 buy(reader, userEmailValidated);
@@ -291,21 +291,27 @@ public class IOView {
         return transferStatus;
     }
 
-    public static String deposit(Scanner reader) {
-        //ask for card number and check if this card number exists within users
-        String originCardNumber = Utilities.ask(reader, "Origin Number Card?");
-        String amount = Utilities.ask(reader, "Amount?");
+    public static String deposit(Scanner reader,String userEmailValidated ) {
+        //ask for card number and check if this card number exists
+        System.out.println( "Deposit: Origin Number Card?");
+        List userAndCardDeposit = loopShowAndPickCard(reader, userEmailValidated);
+        boolean exit = userAndCardDeposit.get(1).equals("quit");
+        String depositStatus = "quited deposit";
+        if(!exit) {
 
-        HashMap<String, String> depositRequest = new HashMap<>();
-        //fill data hashmap object
-        depositRequest.put("operation", "deposit");
-        depositRequest.put("originCardNumber", originCardNumber);
-        depositRequest.put("amount", amount);
+            String originCardNumber = userAndCardDeposit.get(1).toString();
+            String amount = Utilities.ask(reader, "Amount?");
 
-        HashMap<String, String> depositResponse = FrontController.mainLoopController(depositRequest);
-        String depositStatus = depositResponse.get("status");
-        System.out.println("status deposit: " + depositStatus + "\n" + depositResponse.get("message"));
+            HashMap<String, String> depositRequest = new HashMap<>();
+            //fill data hashmap object
+            depositRequest.put("operation", "deposit");
+            depositRequest.put("originCardNumber", originCardNumber);
+            depositRequest.put("amount", amount);
 
+            HashMap<String, String> depositResponse = FrontController.mainLoopController(depositRequest);
+            depositStatus = depositResponse.get("status");
+            System.out.println("status deposit: " + depositStatus + "\n" + depositResponse.get("message"));
+        }
         return depositStatus;
 
     }

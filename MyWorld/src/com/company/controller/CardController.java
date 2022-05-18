@@ -101,32 +101,34 @@ public class CardController {
         return transferResponse;
     }
 
-    //********************** to refactor 2.4.5 -  2.4.6 *******************************************
-
     public static HashMap<String, String> deposit(HashMap<String, String> dataToDeposit) {
         //
-        long cardNumber = Long.valueOf((dataToDeposit.get("originCardNumber")));
+        long originCardNumber = Long.valueOf((dataToDeposit.get("originCardNumber")));
         double amount = Double.parseDouble(dataToDeposit.get("amount"));
-        //get user from card
-        User user = UserService.getUserByCard(cardNumber);
+        Card originCard = CardService.getCardById(originCardNumber);
+        boolean isOriginCardNumber = originCard != null;
 
         HashMap<String, String> depositResponse = new HashMap<>();
         depositResponse.put("response", "depositResponse");
         depositResponse.put("status", "deposit NOT done");
 
-        if (user != null) {
-            double balance = user.getCards().get(cardNumber).getBalance();
-            user.getCards().get(cardNumber).addAmount(amount);
-            double balanceUpdated = user.getCards().get(cardNumber).getBalance();
+        if (isOriginCardNumber) {
+            double balance = originCard.getBalance();
+            originCard.addAmount(amount);
+            Card originCardUpdated = CardService.update(originCard);
+            double originBalanceAfter = originCardUpdated.getBalance();
 
-            depositResponse.put("message", "Deposit " + cardNumber + " of " + amount + ". Balance account: " + balance + " to " + balanceUpdated);
+
+            depositResponse.put("message", "Deposit " + originCardNumber + " of " + amount + ". Balance account: " + balance + " to " + originBalanceAfter);
             depositResponse.put("status", "transfer done");
         } else {
-            depositResponse.put("message", "This credit card number (origin) ( #: " + cardNumber + " ) does not exist");
+            depositResponse.put("message", "This credit card number (origin) ( #: " + originCardNumber + " ) does not exist");
         }
 
         return depositResponse;
     }
+
+    //********************** to refactor 2.4.6 *******************************************
 
     public static HashMap<String, String> buy(HashMap<String, String> dataToBuy) {
         //unpack dataToBuy: user and card
